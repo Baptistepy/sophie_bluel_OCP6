@@ -118,6 +118,28 @@ li:hover {
 	margin-bottom: 1em;
 }
 
+#myBtnContainer {
+	display: flex;
+	justify-content: center;
+	gap: 20px;
+	margin-bottom: 30px;
+}
+
+.btn {
+	font-size: 15px;
+	padding: 10px;
+	border-radius: 60px;
+	font-family: 'Syne';
+	border: 1px solid #1D6154;
+	background:#FFFEF8;;
+	color: #1D6154;
+}
+
+.btn_active {
+	background: #1D6154;
+	color: #FFFEF8;
+}
+
 #introduction p {
 	margin-bottom: 0.5em;
 }
