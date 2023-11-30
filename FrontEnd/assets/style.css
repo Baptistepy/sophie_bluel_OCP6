@@ -126,7 +126,7 @@ li:hover {
 }
 
 .btn {
-	font-size: 15px;
+	font-size: 16px;
 	padding: 10px;
 	border-radius: 60px;
 	font-family: 'Syne';
@@ -206,5 +206,23 @@ footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
+}
+
+.titre_login {
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
+	color: #1D6154;
+}
+
+#login {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	margin-left: 35%;
+	margin-right: 35%;
+	margin-top: 5%;
+	margin-bottom: 5%;
+	gap: 10px;
 }
 
