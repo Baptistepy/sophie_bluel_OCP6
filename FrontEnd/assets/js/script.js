@@ -36,7 +36,7 @@ function createWork(work) {
   figure.appendChild(figcaption);
   gallery.appendChild(figure);
 
-  figure.id = work.id;
+
 }
 
 /**
@@ -74,27 +74,36 @@ async function getCategories() {
   }
 }
 
-async function filterElements() {
-  await getCategories();
-  const btns = document.querySelectorAll('.btn');
+async function filterElements(categories) {
 
-  btns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      btns.forEach(btn => btn.classList.remove('btn_active'));
-      btn.classList.add('btn_active');
-      });
-    });
   }
 
+  /**
+   * @param {type} paramName - description of parameter
+   * @return {type} description of return value
+  **/
+  function btnElement() {
+    const btns = document.querySelectorAll('.btn');
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        btns.forEach(btn => btn.classList.remove('btn_active'));
+        btn.classList.add('btn_active');
+    });
+    }
+  );
+  }
 
 // ******************************* CODE PRINCIPAL *******************************
 
 getWorks()
   .then(() => {
-    createAllWorks();
     filterElements();
+    createAllWorks();
   }) 
   .catch(error => {
     console.error(error);
   })
+
+  btnElement();
 
