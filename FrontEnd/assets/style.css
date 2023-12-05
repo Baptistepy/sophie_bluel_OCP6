@@ -219,15 +219,24 @@ footer nav ul {
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
-	margin-left: 35%;
-	margin-right: 35%;
-	margin-top: 5%;
-	margin-bottom: 5%;
+	margin-left: 32%;
+	margin-right: 32%;
+	margin-top: 4%;
+	margin-bottom: 0;
 	gap: 10px;
 }
 
 input {
-	height: 25px;
+	height: 40px;
+	color: #FFFEF8;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	margin-bottom: 0px;
 }
 
 
+
+.mdp_oubli {
+	display: flex;
+	justify-content: center;
+}

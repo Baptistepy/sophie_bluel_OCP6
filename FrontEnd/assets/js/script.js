@@ -59,6 +59,11 @@ async function getWorks() {
   }
 }
 
+/**
+ * Retrieves the categories from the API.
+ *
+ * @return {Promise<void>} - A promise that resolves when the categories are successfully retrieved.
+ */
 async function getCategories() {
   try {
     const response = await fetch(API_URL + '/categories');
@@ -79,15 +84,7 @@ async function filterElements() {
       btn.classList.add('btn_active');
       });
     });
-
-    console.log(btns);
-    console.log(works);
-    console.log(categories);
   }
-
-
-
-
 
 
 // ******************************* CODE PRINCIPAL *******************************
@@ -95,7 +92,7 @@ async function filterElements() {
 getWorks()
   .then(() => {
     createAllWorks();
-    filterElements()
+    filterElements();
   }) 
   .catch(error => {
     console.error(error);
