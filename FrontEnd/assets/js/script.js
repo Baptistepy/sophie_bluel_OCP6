@@ -4,7 +4,9 @@
 
 const API_URL = 'http://localhost:5678/api';
 
-const gallery = document.querySelector('.gallery');
+const gallery           = document.querySelector('.gallery');
+
+
 
 // ******************************* VARIABLES *******************************
 
@@ -33,6 +35,8 @@ function createWork(work) {
   figure.appendChild(img);
   figure.appendChild(figcaption);
   gallery.appendChild(figure);
+
+  figure.id = work.id;
 }
 
 /**
@@ -65,26 +69,35 @@ async function getCategories() {
   }
 }
 
-async function filterElements () {
-  categories = await getCategories();
+async function filterElements() {
+  await getCategories();
   const btns = document.querySelectorAll('.btn');
 
-  console.log(btns)
-  console.log(works)
-  console.log(categories)
-}
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(btn => btn.classList.remove('btn_active'));
+      btn.classList.add('btn_active');
+      });
+    });
 
-function filterSelection(category) {
-  
-}
+    console.log(btns);
+    console.log(works);
+    console.log(categories);
+  }
+
+
+
+
+
 
 // ******************************* CODE PRINCIPAL *******************************
 
 getWorks()
   .then(() => {
     createAllWorks();
-    filterElements();
+    filterElements()
   }) 
   .catch(error => {
     console.error(error);
   })
+
