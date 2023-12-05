@@ -68,11 +68,15 @@ async function getCategories() {
 async function filterElements () {
   categories = await getCategories();
   const btns = document.querySelectorAll('.btn');
+
   console.log(btns)
   console.log(works)
   console.log(categories)
 }
 
+function filterSelection(category) {
+  
+}
 
 // ******************************* CODE PRINCIPAL *******************************
 
