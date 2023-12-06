@@ -68,31 +68,38 @@ async function getCategories() {
   try {
     const response = await fetch(API_URL + '/categories');
     categories = await response.json();
+    return categories;
 
   } catch (error) {
     console.error(error);
   }
 }
 
-async function filterElements(categories) {
+async function filterElements(id) {
+  const categories        = await getCategories();
+  const btns                = document.querySelectorAll('.btn'); 
+  const filteredWorks       = works.filter(work => { return categories.id === id; });
+  const filteredCategoryIds = categories.filter(category => {return category.id === 1 || category.id === 2 || category.id === 3; }).map(category => category.id);
 
-  }
 
-  /**
-   * @param {type} paramName - description of parameter
-   * @return {type} description of return value
-  **/
-  function btnElement() {
-    const btns = document.querySelectorAll('.btn');
+  gallery.innerHTML = '';
 
-    btns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        btns.forEach(btn => btn.classList.remove('btn_active'));
-        btn.classList.add('btn_active');
+  filteredWorks.forEach(work => {
+    createWork(work);
+  });
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(btn => btn.classList.remove('btn_active'));
+      btn.classList.add('btn_active');
     });
     }
   );
-  }
+  console.log(categories);
+  console.log(filteredCategoryIds);
+  console.log(works);
+}
+
 
 // ******************************* CODE PRINCIPAL *******************************
 
@@ -105,5 +112,5 @@ getWorks()
     console.error(error);
   })
 
-  btnElement();
+
 
