@@ -6,7 +6,7 @@ const API_URL = 'http://localhost:5678/api';
 
 const gallery           = document.querySelector('.gallery');
 
-
+const btns                = document.querySelectorAll('.btn'); 
 
 // ******************************* VARIABLES *******************************
 
@@ -75,38 +75,43 @@ async function getCategories() {
   }
 }
 
-async function filterElements(id) {
-  const categories        = await getCategories();
-  const btns                = document.querySelectorAll('.btn'); 
-  const filteredWorks       = works.filter(work => { return categories.id === id; });
-  const filteredCategoryIds = categories.filter(category => {return category.id === 1 || category.id === 2 || category.id === 3; }).map(category => category.id);
-
-
+/**
+ * Filters the elements based on the given ID.
+ *
+ * @param {number} id - The ID used to filter the elements.
+ */
+function filterElements(id) {
   gallery.innerHTML = '';
+  
+  if (id === 0) createAllWorks(); 
 
-  filteredWorks.forEach(work => {
-    createWork(work);
-  });
+  for (const work of works) {
+    if (work.category.id === id) createWork(work);    
+  }
+}
 
+/**
+ * Adds event listeners to a collection of buttons and filters elements based on the clicked button.
+ *
+ * @param {number} btnId - The ID of the button that was clicked.
+ */
+function addFilteredListeners() {
   btns.forEach(btn => {
     btn.addEventListener('click', () => {
+      filterElements(parseInt(btn.id));
       btns.forEach(btn => btn.classList.remove('btn_active'));
       btn.classList.add('btn_active');
     });
     }
   );
-  console.log(categories);
-  console.log(filteredCategoryIds);
-  console.log(works);
 }
-
 
 // ******************************* CODE PRINCIPAL *******************************
 
 getWorks()
   .then(() => {
-    filterElements();
     createAllWorks();
+    addFilteredListeners();
   }) 
   .catch(error => {
     console.error(error);
