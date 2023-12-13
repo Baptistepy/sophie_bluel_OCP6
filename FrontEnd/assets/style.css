@@ -234,7 +234,13 @@ input {
 	margin-bottom: 0px;
 }
 
+#email {
+	color: black;
+}
 
+#password {
+	color: black;
+}
 
 .mdp_oubli {
 	display: flex;

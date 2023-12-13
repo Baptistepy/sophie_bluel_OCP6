@@ -23,18 +23,24 @@
 	</nav>
 </header>
 
-<main>
-	<h1 class="titre_login">Log in</h1>
+<main id="login_main">
+	<section>
+		<h1 class="titre_login">Log in</h1>
 
-	<form id="login">
-		<label for="username">E-mail</label>
-		<input type="text" id="username" required>
-		<label for="password">Mot de passe</label>
-		<input type="password" id="password" required>
-		<input type="submit" value="Se connecter">
-	</form>
+		<p class="login_error"></p>
+		<form id="login">
+			<label for="username">E-mail</label>
+			<input type="text" id="email" name="email" required>
+	
+			<label for="password">Mot de passe</label>
+			<input type="password" id="password" name="password" required>
+	
+			<input type="submit" id="submit" value="Se connecter">
+		</form>
+	
+		<a class="mdp_oubli" href="#">Mot de passe oublié</a>
+	</section>
 
-	<a class="mdp_oubli" href="#">Mot de passe oublié</a>
 </main>
 
 <footer>
