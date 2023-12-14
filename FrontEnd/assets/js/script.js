@@ -12,6 +12,7 @@ const btns                = document.querySelectorAll('.btn');
 
 let works = [];
 let categories = [];
+var isConnected = true;
 
 // ******************************* FONCTIONS *******************************
 
@@ -106,7 +107,28 @@ function addFilteredListeners() {
   );
 }
 
+    function updateLogoutButton() {
+      if (isConnected) {
+        document.getElementById("logoutButton").style.display = "block";
+      } else {
+        document.getElementById("logoutButton").style.display = "none";
+      }
+    }
 
+    function checkConnection() {
+      isConnected = true;
+      updateLogoutButton();
+      console.log(isConnected);
+    }
+
+    function logout() {
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        if (isConnected) {
+          isConnected = false;
+          window.location.href = "index.html";
+        }
+      })
+    }
 
 // ******************************* CODE PRINCIPAL *******************************
 
@@ -119,5 +141,7 @@ getWorks()
     console.error(error);
   })
 
+checkConnection();
+logout();
 
 

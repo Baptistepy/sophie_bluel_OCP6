@@ -17,6 +17,11 @@ const LOGIN_URL = 'http://localhost:5678/api/users/login';
 
 // ******************************* FONCTIONS *******************************
 
+/**
+ * Logs in a user by making a POST request to the LOGIN_URL with the provided data.
+ *
+ * @param {event} event - The event object triggered by the login action.
+ */
 function loginUser(event) {
   event.preventDefault();
   fetch(LOGIN_URL, {
@@ -50,3 +55,4 @@ function loginUser(event) {
 document.getElementById('login').addEventListener('submit', function (event) {
   loginUser(event);
 });
+
