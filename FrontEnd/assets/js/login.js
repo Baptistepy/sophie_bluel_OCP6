@@ -48,8 +48,6 @@ function loginUser(event) {
     });
 }
 
-
-    
 // ******************************* CODE PRINCIPAL *******************************
 
 document.getElementById('login').addEventListener('submit', function (event) {

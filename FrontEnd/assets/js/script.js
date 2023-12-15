@@ -12,7 +12,6 @@ const btns                = document.querySelectorAll('.btn');
 
 let works = [];
 let categories = [];
-var isConnected = true;
 
 // ******************************* FONCTIONS *******************************
 
@@ -107,30 +106,30 @@ function addFilteredListeners() {
   );
 }
 
-    function updateLogoutButton() {
-      if (isConnected) {
-        document.getElementById("logoutButton").style.display = "block";
-      } else {
-        document.getElementById("logoutButton").style.display = "none";
-      }
-    }
-
     function checkConnection() {
-      isConnected = true;
-      updateLogoutButton();
-      console.log(isConnected);
+      return localStorage.getItem("token") ? true : false;
     }
 
     function logout() {
-      document.getElementById("logoutBtn").addEventListener("click", () => {
-        if (isConnected) {
-          isConnected = false;
-          window.location.href = "index.html";
-        }
-      })
+      localStorage.removeItem("token");
+      window.location.href = "index.html";
+    }
+
+    function displayAdmin() {
+      if (checkConnection()) {
+        const login = document.querySelector('#login');
+        const filters = document.querySelector('#filters');
+
+        login.innerHTML = "<button>logout</button>";
+        login.addEventListener("click", logout);
+
+        filters.style.display = "none";
+      }
     }
 
 // ******************************* CODE PRINCIPAL *******************************
+
+displayAdmin();
 
 getWorks()
   .then(() => {
@@ -141,7 +140,5 @@ getWorks()
     console.error(error);
   })
 
-checkConnection();
-logout();
 
 
