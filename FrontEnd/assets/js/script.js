@@ -135,6 +135,7 @@ function addFilteredListeners() {
       }
     }
 
+    
 // ******************************* CODE PRINCIPAL *******************************
 
 displayAdmin();
