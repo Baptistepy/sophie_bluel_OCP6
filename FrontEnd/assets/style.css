@@ -333,7 +333,7 @@ footer nav ul {
   border: none;
   font-size: 1rem;
   background-color: unset;
-  
+  font-family: work sans;
 }
 
 input {
@@ -355,4 +355,24 @@ input {
 .mdp_oubli {
   display: flex;
   justify-content: center;
+}
+
+.black-band {
+  background-color: #000;
+  color: white;
+  display: flex;
+  justify-content: center;
+  padding: 17px;
+  width: 100%;
+  display: none;
+}
+
+.fa-pen-to-square {
+  margin-right: 10px;
+}
+
+.modif-modal {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
