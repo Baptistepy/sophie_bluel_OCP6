@@ -372,7 +372,12 @@ input {
 }
 
 .modif-modal {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+  position: relative;
+  bottom: 50px;
+  left: 685px;
+  display: none;
+}
+
+.js-modal {
+  text-decoration: none;
 }

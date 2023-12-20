@@ -117,18 +117,21 @@ function addFilteredListeners() {
 
     function displayAdmin() {
       if (checkConnection()) {
-        const login = document.querySelector('#login');
-        const filters = document.querySelector('#filters');
-        const adminLine = document.querySelector('.black-band');
-        const modifModal = document.querySelector('.projet-title');
+        const login       = document.querySelector('#login');
+        const filters     = document.querySelector('#filters');
+        const adminLine   = document.querySelector('.black-band');
+        const modifModal  = document.querySelector('.projet-title');
+        const modifBtn    = document.querySelector('.modif-modal');
 
         login.innerHTML = "<button>logout</button>";
         login.addEventListener("click", logout);
 
         filters.style.display = "none";
         adminLine.style.display = "flex";
+        modifBtn.style.display = "inline-block";
 
-        modifModal.insertAdjacentHTML("afterend", '<div class="modif-modal"><i class="fa-solid fa-pen-to-square"></i><a href="#" class="js-modal">modifier</a></div>' );
+        modifModal.insertAdjacentElement("afterend", modifBtn );
+        
       }
     }
 
