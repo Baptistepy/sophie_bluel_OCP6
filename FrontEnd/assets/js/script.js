@@ -119,11 +119,13 @@ function addFilteredListeners() {
       if (checkConnection()) {
         const login = document.querySelector('#login');
         const filters = document.querySelector('#filters');
+        const header = document.querySelector('#header');
 
         login.innerHTML = "<button>logout</button>";
         login.addEventListener("click", logout);
 
         filters.style.display = "none";
+
       }
     }
 

@@ -320,10 +320,20 @@ footer nav ul {
   color: #1D6154;
 }
 
+.login-admin {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-left: 350px;
+  margin-right: 350px;
+  margin-top: 20px;
+}
+
 [id="login"] button {
   border: none;
   font-size: 1rem;
   background-color: unset;
+  
 }
 
 input {
