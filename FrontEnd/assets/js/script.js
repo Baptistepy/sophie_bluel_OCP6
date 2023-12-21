@@ -8,7 +8,7 @@ const gallery   = document.querySelector('.gallery');
 
 const btns      = document.querySelectorAll('.btn'); 
 
-
+const portfolio = document.querySelector('#portfolio');
 // ******************************* VARIABLES *******************************
 
 let works = [];
@@ -141,20 +141,23 @@ function addFilteredListeners() {
 
         filters.style.display = "none";
         adminLine.style.display = "flex";
-        modifBtn.style.display = "inline-block";
+        modifBtn.style.display = "block";
 
+        modifBtn.addEventListener("click", displayModal);
         modifModal.insertAdjacentElement("afterend", modifBtn );        
       }
     }
 
-    const openModal = function (e) {
-      e.preventDefault()
-      const target = document.querySelector(e.target.getAttribute('href'))
-      console.log(target)
-      target.style.display = null
-      target.removeAttribute('aria-hidden')
-      target.setAttribute('aria-modal', 'true')
-      console.log(openModal)
+    function displayModal() {
+      const modal = document.createElement("section");
+      const title = document.createElement("h2");
+
+
+      modal.classList.add("modal");
+      title.innerText = "Galerie Photo";
+
+      modal.appendChild(title);
+      portfolio.appendChild(modal);
     }
 
 // ******************************* CODE PRINCIPAL *******************************
@@ -170,10 +173,6 @@ getWorks()
     console.error(error);
   })
 
-document.querySelectorAll('js-modal').forEach(a => {
-  a.addEventListener('click', openModal);
-  console.log(a)
-  console.log(addEventListener)
-})
+
 
 
