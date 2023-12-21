@@ -107,15 +107,27 @@ function addFilteredListeners() {
   );
 }
 
+    /**
+     * Check the connection by retrieving the token from local storage.
+     *
+     * @return {boolean} True if the token exists in local storage, false otherwise.
+     */
     function checkConnection() {
       return localStorage.getItem("token") ? true : false;
     }
 
+/**
+ * Logout the user by removing the token from local storage
+ * and redirecting to the index page.
+ */
     function logout() {
       localStorage.removeItem("token");
       window.location.href = "index.html";
     }
 
+/**
+ * Displays the admin interface if the user is connected.
+ */
     function displayAdmin() {
       if (checkConnection()) {
         const login       = document.querySelector('#login');
@@ -135,6 +147,16 @@ function addFilteredListeners() {
       }
     }
 
+    const openModal = function (e) {
+      e.preventDefault()
+      const target = document.querySelector(e.target.getAttribute('href'))
+      console.log(target)
+      target.style.display = null
+      target.removeAttribute('aria-hidden')
+      target.setAttribute('aria-modal', 'true')
+      console.log(openModal)
+    }
+
 // ******************************* CODE PRINCIPAL *******************************
 
 displayAdmin();
@@ -148,6 +170,10 @@ getWorks()
     console.error(error);
   })
 
-
+document.querySelectorAll('js-modal').forEach(a => {
+  a.addEventListener('click', openModal);
+  console.log(a)
+  console.log(addEventListener)
+})
 
 
