@@ -2,11 +2,12 @@
 
 // ******************************* CONSTANTES *******************************
 
-const API_URL = 'http://localhost:5678/api';
+const API_URL   = 'http://localhost:5678/api';
 
-const gallery           = document.querySelector('.gallery');
+const gallery   = document.querySelector('.gallery');
 
-const btns                = document.querySelectorAll('.btn'); 
+const btns      = document.querySelectorAll('.btn'); 
+
 
 // ******************************* VARIABLES *******************************
 
@@ -130,12 +131,10 @@ function addFilteredListeners() {
         adminLine.style.display = "flex";
         modifBtn.style.display = "inline-block";
 
-        modifModal.insertAdjacentElement("afterend", modifBtn );
-        
+        modifModal.insertAdjacentElement("afterend", modifBtn );        
       }
     }
 
-    
 // ******************************* CODE PRINCIPAL *******************************
 
 displayAdmin();
@@ -148,6 +147,7 @@ getWorks()
   .catch(error => {
     console.error(error);
   })
+
 
 
 
