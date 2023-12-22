@@ -149,25 +149,29 @@ function addFilteredListeners() {
     }
 
     function displayModal() {
-      const header = document.createElement("header");
-      const modal = document.createElement("section");
-      const title = document.createElement("h2");
-      const closeBtn = document.createElement("span");
+      const header    = document.createElement("header");
+      const modal     = document.createElement("section");
+      const title     = document.createElement("h2");
+      const footer    = document.createElement("footer");
+      const closeBtn  = document.createElement("span");
+      const addBtn    = document.createElement("button");
       
-
-
       modal.classList.add("modal");
       title.innerText = "Galerie Photo";
-      closeBtn.innerHTML = "&cross;";
+      closeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
       closeBtn.classList.add("close");
+      addBtn.innerText = "Ajouter un projet";
 
       closeBtn.addEventListener('click', closeModal);
 
       modal.appendChild(header);
       modal.appendChild(title);
+      modal.appendChild(footer);
+      /*modal.appendChild(gallery);*/
       portfolio.appendChild(modal);
       header.appendChild(closeBtn);
-
+      footer.appendChild(addBtn);
+      
     }
 
     function closeModal() {
