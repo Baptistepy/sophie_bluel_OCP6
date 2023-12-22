@@ -149,15 +149,30 @@ function addFilteredListeners() {
     }
 
     function displayModal() {
+      const header = document.createElement("header");
       const modal = document.createElement("section");
       const title = document.createElement("h2");
+      const closeBtn = document.createElement("span");
+      
 
 
       modal.classList.add("modal");
       title.innerText = "Galerie Photo";
+      closeBtn.innerHTML = "&cross;";
+      closeBtn.classList.add("close");
 
+      closeBtn.addEventListener('click', closeModal);
+
+      modal.appendChild(header);
       modal.appendChild(title);
       portfolio.appendChild(modal);
+      header.appendChild(closeBtn);
+
+    }
+
+    function closeModal() {
+      const modal = document.querySelector('.modal');
+      modal.remove();
     }
 
 // ******************************* CODE PRINCIPAL *******************************

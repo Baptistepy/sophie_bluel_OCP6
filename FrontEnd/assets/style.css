@@ -255,7 +255,7 @@ li:focus {
   margin-bottom: 0.5em;
 }
 
-#portfolio > header > h2 {
+[id="portfolio"] > header > h2 {
   text-align: center;
   margin-bottom: 1em;
 }
@@ -273,39 +273,39 @@ li:focus {
 
 }
 
-#contact {
+[id="contact"] {
   width: 50%;
   margin: auto;
 }
 
-#contact>* {
+[id="contact"] > * {
   text-align: center;
 
 }
 
-#contact h2 {
+[id="contact"] h2 {
   margin-bottom: 20px;
 }
 
-#contact form {
+[id="contact"]form {
   text-align: left;
   margin-top: 30px;
   display: flex;
   flex-direction: column;
 }
 
-#contact input {
+[id="contact"] input {
   height: 50px;
   font-size: 1.2em;
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-#contact label {
+[id="contact"] label {
   margin: 2em 0 1em 0;
 }
 
-#contact textarea {
+[id="contact"] textarea {
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
@@ -409,4 +409,11 @@ input {
 .modal h2 {
   margin: 60px auto 46px;
   width: fit-content;
+}
+
+.close {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  cursor: pointer;
 }
