@@ -246,7 +246,7 @@ li:focus {
   color: #1D6154;
 }
 
-.btn_active {
+.btn-active {
   background: #1D6154;
   color: #FFFEF8;
 }
@@ -418,6 +418,15 @@ input {
   cursor: pointer;
 }
 
-.add-btn {
+.modal footer { 
+  display: flex;
+  justify-content: center;
+}
 
+.modal-border {
+  color: #B3B3B3;
+  width: 420px;
+  height: 0px;
+  border: 1px solid #B3B3B3;
+  position: absolute;
 }

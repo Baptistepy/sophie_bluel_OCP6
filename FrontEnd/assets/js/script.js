@@ -149,29 +149,47 @@ function addFilteredListeners() {
     }
 
     function displayModal() {
-      const header    = document.createElement("header");
-      const modal     = document.createElement("section");
-      const title     = document.createElement("h2");
-      const footer    = document.createElement("footer");
-      const closeBtn  = document.createElement("span");
-      const addBtn    = document.createElement("button");
+      const header      = document.createElement("header");
+      const modal       = document.createElement("section");
+      const title       = document.createElement("h2");
+      const footer      = document.createElement("footer");
+      const closeBtn    = document.createElement("span");
+      const addBtn      = document.createElement("button");
+      const modalBorder = document.createElement("div");
+      const gallery     = document.createElement("section");
       
       modal.classList.add("modal");
       title.innerText = "Galerie Photo";
       closeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
       closeBtn.classList.add("close");
       addBtn.innerText = "Ajouter un projet";
+      addBtn.classList.add("btn-active");
+      addBtn.classList.add("btn");
+      modalBorder.classList.add("modal-border");
+      
+      works.forEach (work => {
+        const figure = document.createElement("figure");
+        const img = document.createElement("img");
+        const figcaption = document.createElement("figcaption");
+        figure.classList.add("modal-fig");
+        img.src = work.imageUrl;
+        img.alt = work.imageAlt;
+        figcaption.innerText = work.caption;
+        figure.appendChild(img);
+        figure.appendChild(figcaption);
+        gallery.appendChild(figure);
+      })
 
       closeBtn.addEventListener('click', closeModal);
 
-      modal.appendChild(header);
-      modal.appendChild(title);
-      modal.appendChild(footer);
-      /*modal.appendChild(gallery);*/
       portfolio.appendChild(modal);
+      modal.appendChild(header);
       header.appendChild(closeBtn);
+      modal.appendChild(title);
+      modal.appendChild(gallery);
       footer.appendChild(addBtn);
-      
+      footer.appendChild(modalBorder);
+      modal.appendChild(footer);  
     }
 
     function closeModal() {
