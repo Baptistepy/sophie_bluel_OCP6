@@ -2,11 +2,11 @@
 
 // ******************************* CONSTANTES *******************************
 
-const API_URL   = 'http://localhost:5678/api';
+const API_URL = 'http://localhost:5678/api';
 
-const gallery   = document.querySelector('.gallery');
+const gallery = document.querySelector('.gallery');
 
-const btns      = document.querySelectorAll('.btn'); 
+const btns = document.querySelectorAll('.btn');
 
 const portfolio = document.querySelector('#portfolio');
 // ******************************* VARIABLES *******************************
@@ -25,13 +25,13 @@ let categories = [];
  * @param {string} work.caption - The caption for the image.
  */
 function createWork(work) {
-  const figure      = document.createElement('figure');
-  const img         = document.createElement('img');
-  const figcaption  = document.createElement('figcaption');
+  const figure = document.createElement('figure');
+  const img = document.createElement('img');
+  const figcaption = document.createElement('figcaption');
 
-  img.src                 = work.imageUrl;
-  img.alt                 = work.imageAlt;
-  figcaption.textContent  = work.caption;
+  img.src = work.imageUrl;
+  img.alt = work.imageAlt;
+  figcaption.textContent = work.caption;
 
   figure.appendChild(img);
   figure.appendChild(figcaption);
@@ -83,11 +83,11 @@ async function getCategories() {
  */
 function filterElements(id) {
   gallery.innerHTML = '';
-  
-  if (id === 0) createAllWorks(); 
+
+  if (id === 0) createAllWorks();
 
   for (const work of works) {
-    if (work.category.id === id) createWork(work);    
+    if (work.category.id === id) createWork(work);
   }
 }
 
@@ -103,100 +103,124 @@ function addFilteredListeners() {
       btns.forEach(btn => btn.classList.remove('btn_active'));
       btn.classList.add('btn_active');
     });
-    }
+  }
   );
 }
 
-    /**
-     * Check the connection by retrieving the token from local storage.
-     *
-     * @return {boolean} True if the token exists in local storage, false otherwise.
-     */
-    function checkConnection() {
-      return localStorage.getItem("token") ? true : false;
-    }
+/**
+ * Check the connection by retrieving the token from local storage.
+ *
+ * @return {boolean} True if the token exists in local storage, false otherwise.
+ */
+function checkConnection() {
+  return localStorage.getItem("token") ? true : false;
+}
 
 /**
  * Logout the user by removing the token from local storage
  * and redirecting to the index page.
  */
-    function logout() {
-      localStorage.removeItem("token");
-      window.location.href = "index.html";
-    }
+function logout() {
+  localStorage.removeItem("token");
+  window.location.href = "index.html";
+}
 
 /**
  * Displays the admin interface if the user is connected.
  */
-    function displayAdmin() {
-      if (checkConnection()) {
-        const login       = document.querySelector('#login');
-        const filters     = document.querySelector('#filters');
-        const adminLine   = document.querySelector('.black-band');
-        const modifModal  = document.querySelector('.projet-title');
-        const modifBtn    = document.querySelector('.modif-modal');
+function displayAdmin() {
+  if (checkConnection()) {
+    const login = document.querySelector('#login');
+    const filters = document.querySelector('#filters');
+    const adminLine = document.querySelector('.black-band');
+    const modifModal = document.querySelector('.projet-title');
+    const modifBtn = document.querySelector('.modif-modal');
 
-        login.innerHTML = "<button>logout</button>";
-        login.addEventListener("click", logout);
+    login.innerHTML = "<button>logout</button>";
+    login.addEventListener("click", logout);
 
-        filters.style.display = "none";
-        adminLine.style.display = "flex";
-        modifBtn.style.display = "block";
+    filters.style.display = "none";
+    adminLine.style.display = "flex";
+    modifBtn.style.display = "block";
 
-        modifBtn.addEventListener("click", displayModal);
-        modifModal.insertAdjacentElement("afterend", modifBtn );        
+    modifBtn.addEventListener("click", displayModal);
+    modifModal.insertAdjacentElement("afterend", modifBtn);
+  }
+}
+
+function displayModal() {
+  const header = document.createElement("header");
+  const modal = document.createElement("section");
+  const title = document.createElement("h2");
+  const footer = document.createElement("footer");
+  const closeBtn = document.createElement("span");
+  const addBtn = document.createElement("button");
+  const modalBorder = document.createElement("div");
+  const gallery = document.createElement("section");
+
+  modal.classList.add("modal");
+  closeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+  closeBtn.classList.add("close");
+  title.innerText = "Galerie Photo";
+  addBtn.innerText = "Ajouter un projet";
+  addBtn.classList.add("btn-active");
+  addBtn.classList.add("btn");
+  modalBorder.classList.add("modal-border");
+  gallery.classList.add("modal-gallery");
+
+  works.forEach(work => {
+    const figure = document.createElement("figure");
+    const img = document.createElement("img");
+    const deleteBtn = document.createElement("button");
+
+    img.src = work.imageUrl;
+    img.alt = work.imageAlt;
+    img.classList.add("modal-img");
+    deleteBtn.classList.add("delete-modal");
+
+    deleteBtn.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
+    deleteBtn.addEventListener('click', deleteModal);
+
+    figure.appendChild(img);
+    gallery.appendChild(figure);
+    figure.appendChild(deleteBtn);
+  })
+
+  console.log(deleteModal);
+  closeBtn.addEventListener('click', closeModal);
+
+  portfolio.appendChild(modal);
+  modal.appendChild(header);
+  header.appendChild(closeBtn);
+  modal.appendChild(title);
+  modal.appendChild(gallery);
+  footer.appendChild(addBtn);
+  footer.appendChild(modalBorder);
+  modal.appendChild(footer);
+}
+
+function closeModal() {
+  const modal = document.querySelector('.modal');
+  modal.remove();
+}
+
+function deleteModal() {
+  const id = this.id;
+  console.log(id);
+  fetch('http://localhost:5678/api/works/${id}', {
+    method: 'DELETE',
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log('La ressource a été supprimée avec succès.');
+      } else {
+        console.log('Une erreur s\'est produite lors de la suppression de la ressource.');
       }
-    }
-
-    function displayModal() {
-      const header      = document.createElement("header");
-      const modal       = document.createElement("section");
-      const title       = document.createElement("h2");
-      const footer      = document.createElement("footer");
-      const closeBtn    = document.createElement("span");
-      const addBtn      = document.createElement("button");
-      const modalBorder = document.createElement("div");
-      const gallery     = document.createElement("section");
-      
-      modal.classList.add("modal");
-      title.innerText = "Galerie Photo";
-      closeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-      closeBtn.classList.add("close");
-      addBtn.innerText = "Ajouter un projet";
-      addBtn.classList.add("btn-active");
-      addBtn.classList.add("btn");
-      modalBorder.classList.add("modal-border");
-      
-      works.forEach (work => {
-        const figure = document.createElement("figure");
-        const img = document.createElement("img");
-        const figcaption = document.createElement("figcaption");
-        figure.classList.add("modal-fig");
-        img.src = work.imageUrl;
-        img.alt = work.imageAlt;
-        figcaption.innerText = work.caption;
-        figure.appendChild(img);
-        figure.appendChild(figcaption);
-        gallery.appendChild(figure);
-      })
-
-      closeBtn.addEventListener('click', closeModal);
-
-      portfolio.appendChild(modal);
-      modal.appendChild(header);
-      header.appendChild(closeBtn);
-      modal.appendChild(title);
-      modal.appendChild(gallery);
-      footer.appendChild(addBtn);
-      footer.appendChild(modalBorder);
-      modal.appendChild(footer);  
-    }
-
-    function closeModal() {
-      const modal = document.querySelector('.modal');
-      modal.remove();
-    }
-
+    })
+    .catch(error => {
+      console.log('Une erreur s\'est produite lors de la suppression de la ressource :', error);
+    });
+}
 // ******************************* CODE PRINCIPAL *******************************
 
 displayAdmin();
@@ -205,7 +229,7 @@ getWorks()
   .then(() => {
     createAllWorks();
     addFilteredListeners();
-  }) 
+  })
   .catch(error => {
     console.error(error);
   })

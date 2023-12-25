@@ -430,3 +430,19 @@ input {
   border: 1px solid #B3B3B3;
   position: absolute;
 }
+
+.modal-img {
+  height: 102px;
+  width: 76px;
+}
+
+.modal-gallery {
+  display: flex;
+  position: relative;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.delete-modal {
+  position: absolute;
+}
