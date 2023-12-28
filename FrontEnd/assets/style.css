@@ -431,10 +431,6 @@ input {
   position: absolute;
 }
 
-.modal-img {
-  height: 102px;
-  width: 76px;
-}
 
 .modal-gallery {
   display: flex;
@@ -443,6 +439,19 @@ input {
   gap: 6px;
 }
 
-.delete-modal {
+.modal-gallery figure {
+  position: relative;
+}
+
+.modal-gallery img {
+  height: 102px;
+  width: 76px;
+  z-index: 1;
+}
+
+.delete-btn {
   position: absolute;
+  top: 2px;
+  right: 2px;
+  z-index: 1000;
 }

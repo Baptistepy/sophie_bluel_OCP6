@@ -24,7 +24,7 @@ let categories = [];
  * @param {string} work.imageAlt - The alternate text for the image.
  * @param {string} work.caption - The caption for the image.
  */
-function createWork(work) {
+function createWork(work, container) {
   const figure = document.createElement('figure');
   const img = document.createElement('img');
   const figcaption = document.createElement('figcaption');
@@ -33,18 +33,28 @@ function createWork(work) {
   img.alt = work.imageAlt;
   figcaption.textContent = work.caption;
 
+  if (container !== gallery) {
+    const deleteBtn = document.createElement("i");
+
+    deleteBtn.classList.add("delete-btn", "fa-solid", "fa-trash");
+
+    deleteBtn.id = "trash-" + work.id;
+
+    figure.appendChild(deleteBtn);
+    deleteBtn.addEventListener('click', () => deleteModal(work.id));
+  }
+
   figure.appendChild(img);
   figure.appendChild(figcaption);
-  gallery.appendChild(figure);
-
+  container.appendChild(figure);
 
 }
 
 /**
  * Creates all works.
  */
-function createAllWorks() {
-  works.forEach(work => { createWork(work) });
+function createAllWorks(container) {
+  works.forEach(work => { createWork(work, container) });
 }
 
 /**
@@ -149,14 +159,14 @@ function displayAdmin() {
 }
 
 function displayModal() {
-  const header = document.createElement("header");
-  const modal = document.createElement("section");
-  const title = document.createElement("h2");
-  const footer = document.createElement("footer");
-  const closeBtn = document.createElement("span");
-  const addBtn = document.createElement("button");
-  const modalBorder = document.createElement("div");
-  const gallery = document.createElement("section");
+  const header        = document.createElement("header");
+  const modal         = document.createElement("section");
+  const title         = document.createElement("h2");
+  const footer        = document.createElement("footer");
+  const closeBtn      = document.createElement("span");
+  const addBtn        = document.createElement("button");
+  const modalBorder   = document.createElement("div");
+  const modalGallery  = document.createElement("section");
 
   modal.classList.add("modal");
   closeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
@@ -166,34 +176,18 @@ function displayModal() {
   addBtn.classList.add("btn-active");
   addBtn.classList.add("btn");
   modalBorder.classList.add("modal-border");
-  gallery.classList.add("modal-gallery");
+  modalGallery.classList.add("modal-gallery");
+  
 
-  works.forEach(work => {
-    const figure = document.createElement("figure");
-    const img = document.createElement("img");
-    const deleteBtn = document.createElement("button");
+  createAllWorks(modalGallery);
 
-    img.src = work.imageUrl;
-    img.alt = work.imageAlt;
-    img.classList.add("modal-img");
-    deleteBtn.classList.add("delete-modal");
-
-    deleteBtn.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
-    deleteBtn.addEventListener('click', deleteModal);
-
-    figure.appendChild(img);
-    gallery.appendChild(figure);
-    figure.appendChild(deleteBtn);
-  })
-
-  console.log(deleteModal);
   closeBtn.addEventListener('click', closeModal);
 
   portfolio.appendChild(modal);
   modal.appendChild(header);
   header.appendChild(closeBtn);
   modal.appendChild(title);
-  modal.appendChild(gallery);
+  modal.appendChild(modalGallery);
   footer.appendChild(addBtn);
   footer.appendChild(modalBorder);
   modal.appendChild(footer);
@@ -204,11 +198,14 @@ function closeModal() {
   modal.remove();
 }
 
-function deleteModal() {
-  const id = this.id;
-  console.log(id);
-  fetch('http://localhost:5678/api/works/${id}', {
+async function deleteModal(id) {
+  console.log(localStorage.getItem('token'));
+  await fetch(`http://localhost:5678/api/works/${id}`, {
     method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
     })
     .then(response => {
       if (response.ok) {
@@ -227,7 +224,7 @@ displayAdmin();
 
 getWorks()
   .then(() => {
-    createAllWorks();
+    createAllWorks(gallery);
     addFilteredListeners();
   })
   .catch(error => {
