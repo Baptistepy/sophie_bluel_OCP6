@@ -25,9 +25,9 @@ let categories = [];
  * @param {string} work.caption - The caption for the image.
  */
 function createWork(work, container) {
-  const figure = document.createElement('figure');
-  const img = document.createElement('img');
-  const figcaption = document.createElement('figcaption');
+  const figure      = document.createElement('figure');
+  const img         = document.createElement('img');
+  const figcaption  = document.createElement('figcaption');
 
   img.src = work.imageUrl;
   img.alt = work.imageAlt;
@@ -140,11 +140,11 @@ function logout() {
  */
 function displayAdmin() {
   if (checkConnection()) {
-    const login = document.querySelector('#login');
-    const filters = document.querySelector('#filters');
-    const adminLine = document.querySelector('.black-band');
-    const modifModal = document.querySelector('.projet-title');
-    const modifBtn = document.querySelector('.modif-modal');
+    const login       = document.querySelector('#login');
+    const filters     = document.querySelector('#filters');
+    const adminLine   = document.querySelector('.black-band');
+    const modifModal  = document.querySelector('.projet-title');
+    const modifBtn    = document.querySelector('.modif-modal');
 
     login.innerHTML = "<button>logout</button>";
     login.addEventListener("click", logout);
@@ -172,7 +172,7 @@ function displayModal() {
   closeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
   closeBtn.classList.add("close");
   title.innerText = "Galerie Photo";
-  addBtn.innerText = "Ajouter un projet";
+  addBtn.innerText = "Ajouter une Photo";
   addBtn.classList.add("btn-active");
   addBtn.classList.add("btn");
   modalBorder.classList.add("modal-border");
@@ -198,6 +198,12 @@ function closeModal() {
   modal.remove();
 }
 
+/**
+ * Deletes a modal with the specified ID.
+ *
+ * @param {number} id - The ID of the modal to delete.
+ * @return {Promise<void>} A promise that resolves when the modal is successfully deleted.
+ */
 async function deleteModal(id) {
   console.log(localStorage.getItem('token'));
   await fetch(`http://localhost:5678/api/works/${id}`, {

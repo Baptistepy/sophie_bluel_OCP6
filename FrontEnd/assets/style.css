@@ -409,6 +409,8 @@ input {
 .modal h2 {
   margin: 60px auto 46px;
   width: fit-content;
+  font-family: Work Sans; 
+  color: #000;
 }
 
 .close {
@@ -436,11 +438,16 @@ input {
   display: flex;
   position: relative;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 12px;
+  padding-left: 100px;
+  padding-right: 100px;
+  margin-bottom: 150px;
+  margin-top: 75px;
 }
 
 .modal-gallery figure {
   position: relative;
+  padding-bottom: 15px;
 }
 
 .modal-gallery img {
@@ -449,9 +456,14 @@ input {
   z-index: 1;
 }
 
+.modal .btn-active {
+  margin-top: 40px;
+} 
+
 .delete-btn {
   position: absolute;
   top: 2px;
   right: 2px;
   z-index: 1000;
+  color: white;
 }
