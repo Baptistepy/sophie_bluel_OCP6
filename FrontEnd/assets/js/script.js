@@ -181,6 +181,40 @@ function displayModal() {
 
   createAllWorks(modalGallery);
 
+  addBtn.addEventListener('click', () => {
+    modalGallery.innerHTML = "";
+    addBtn.innerText = "Valider";
+    title.innerText = "Ajout photo";
+
+    const form = document.createElement('form');
+    const imageUrlInput = document.createElement('input');
+    const imageAltInput = document.createElement('input');
+    const captionInput = document.createElement('input');
+    const submitBtn = document.createElement('button');
+  
+    imageUrlInput.type = 'text';
+    imageUrlInput.name = 'imageUrl';
+    imageUrlInput.placeholder = 'Image URL';
+    imageUrlInput.required = true;
+  
+    imageAltInput.type = 'text';
+    imageAltInput.name = 'imageAlt';
+    imageAltInput.placeholder = 'Alternate Text';
+    imageAltInput.required = true;
+  
+    captionInput.type = 'text';
+    captionInput.name = 'caption';
+    captionInput.placeholder = 'Caption';
+    captionInput.required = true;
+  
+  
+    form.appendChild(imageUrlInput);
+    form.appendChild(imageAltInput);
+    form.appendChild(captionInput);
+
+    modalGallery.appendChild(form);
+  })
+
   closeBtn.addEventListener('click', closeModal);
 
   portfolio.appendChild(modal);
