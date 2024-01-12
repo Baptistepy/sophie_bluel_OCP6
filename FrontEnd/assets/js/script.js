@@ -195,10 +195,14 @@ function displayModal() {
     const categorieLabel  = document.createElement('label');
 
     form.classList.add('form-modal');
+    photoForm.classList.add('photo-input');
+    titreForm.classList.add('text-input');
+    categorieForm.classList.add('text-input');
 
     photoForm.type = 'file';
     photoForm.name = 'image';
     photoForm.required = true;
+    
 
     titreLabel.innerText = 'Titre';
     titreLabel.for = 'titreForm';
@@ -216,6 +220,8 @@ function displayModal() {
     categorieForm.placeholder = 'Caption';
     categorieForm.required = true;
   
+    modalGallery.style.marginBottom = '40px';
+
     form.appendChild(photoForm);
     form.appendChild(titreLabel);
     form.appendChild(titreForm);
