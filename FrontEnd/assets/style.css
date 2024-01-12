@@ -467,3 +467,19 @@ input {
   z-index: 1000;
   color: white;
 }
+
+.form-modal {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+}
+
+.form-modal input {
+  color: #000;
+}
+
+.form-modal label {
+  margin-top: 20px;
+}
+

@@ -183,34 +183,44 @@ function displayModal() {
 
   addBtn.addEventListener('click', () => {
     modalGallery.innerHTML = "";
+    addBtn.type = "submit";
     addBtn.innerText = "Valider";
     title.innerText = "Ajout photo";
 
-    const form = document.createElement('form');
-    const imageUrlInput = document.createElement('input');
-    const imageAltInput = document.createElement('input');
-    const captionInput = document.createElement('input');
-    const submitBtn = document.createElement('button');
+    const form            = document.createElement('form');
+    const photoForm       = document.createElement('input');
+    const titreForm       = document.createElement('input');
+    const titreLabel      = document.createElement('label');
+    const categorieForm   = document.createElement('input');
+    const categorieLabel  = document.createElement('label');
+
+    form.classList.add('form-modal');
+
+    photoForm.type = 'file';
+    photoForm.name = 'image';
+    photoForm.required = true;
+
+    titreLabel.innerText = 'Titre';
+    titreLabel.for = 'titreForm';
+
+    categorieLabel.innerText = 'Catégorie';
+    categorieLabel.for = 'categorieForm';
+
+    titreForm.type = 'text';
+    titreForm.name = 'imageUrl';
+    titreForm.placeholder = 'Image URL';
+    titreForm.required = true;
   
-    imageUrlInput.type = 'text';
-    imageUrlInput.name = 'imageUrl';
-    imageUrlInput.placeholder = 'Image URL';
-    imageUrlInput.required = true;
+    categorieForm.type = 'text';
+    categorieForm.name = 'caption';
+    categorieForm.placeholder = 'Caption';
+    categorieForm.required = true;
   
-    imageAltInput.type = 'text';
-    imageAltInput.name = 'imageAlt';
-    imageAltInput.placeholder = 'Alternate Text';
-    imageAltInput.required = true;
-  
-    captionInput.type = 'text';
-    captionInput.name = 'caption';
-    captionInput.placeholder = 'Caption';
-    captionInput.required = true;
-  
-  
-    form.appendChild(imageUrlInput);
-    form.appendChild(imageAltInput);
-    form.appendChild(captionInput);
+    form.appendChild(photoForm);
+    form.appendChild(titreLabel);
+    form.appendChild(titreForm);
+    form.appendChild(categorieLabel);
+    form.appendChild(categorieForm);
 
     modalGallery.appendChild(form);
   })
