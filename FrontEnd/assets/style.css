@@ -413,11 +413,22 @@ input {
   color: #000;
 }
 
+.return {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  cursor: pointer;
+}
+
 .close {
   position: absolute;
   top: 30px;
   right: 30px;
   cursor: pointer;
+}
+
+.hidden {
+  display: none;
 }
 
 .modal footer { 
@@ -477,11 +488,17 @@ input {
   gap: 20px;
 }
 
+.form-modal input {
+  color: #000;
+}
+
 .photo-input {
   display: flex;
   flex-direction: column;
   height: 169px;
   width: 420px;
+  border-radius: 3px;
+  background: #E8F1F6;
 }
 
 .text-input {
@@ -493,3 +510,9 @@ input {
   margin-top: 20px;
 }
 
+.fa-trash-can {
+  margin: 5px;
+  border-radius: 3px;
+  padding: 9px 5px;
+  background-color: #000;
+}

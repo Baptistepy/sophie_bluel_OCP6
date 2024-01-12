@@ -36,7 +36,7 @@ function createWork(work, container) {
   if (container !== gallery) {
     const deleteBtn = document.createElement("i");
 
-    deleteBtn.classList.add("delete-btn", "fa-solid", "fa-trash");
+    deleteBtn.classList.add("delete-btn", "fa-solid", "fa-trash-can", "fa-xs");
 
     deleteBtn.id = "trash-" + work.id;
 
@@ -158,17 +158,68 @@ function displayAdmin() {
   }
 }
 
+function createModal(modalGallery, addBtn, title, returnBtn) {
+  modalGallery.innerHTML = "";
+  addBtn.type = "submit";
+  addBtn.innerText = "Valider";
+  title.innerText = "Ajout photo";
+
+  const form            = document.createElement('form');
+  const photoForm       = document.createElement('input');
+  const titreForm       = document.createElement('input');
+  const titreLabel      = document.createElement('label');
+  const categorieForm   = document.createElement('input');
+  const categorieLabel  = document.createElement('label');
+
+  returnBtn.classList.remove("hidden");
+  form.classList.add('form-modal');
+  photoForm.classList.add('photo-input');
+  titreForm.classList.add('text-input');
+  categorieForm.classList.add('text-input');
+
+  photoForm.type = 'file';
+  photoForm.name = 'image';
+  photoForm.required = true;
+  
+  titreLabel.innerText = 'Titre';
+  titreLabel.for = 'titreForm';
+
+  categorieLabel.innerText = 'Catégorie';
+  categorieLabel.for = 'categorieForm';
+
+  titreForm.type = 'text';
+  titreForm.name = 'imageUrl';
+  titreForm.required = true;
+
+  categorieForm.type = 'text';
+  categorieForm.name = 'caption';
+  categorieForm.required = true;
+
+  modalGallery.style.marginBottom = '40px';
+
+  form.appendChild(photoForm);
+  form.appendChild(titreLabel);
+  form.appendChild(titreForm);
+  form.appendChild(categorieLabel);
+  form.appendChild(categorieForm);
+
+  modalGallery.appendChild(form);
+}
+
 function displayModal() {
   const header        = document.createElement("header");
   const modal         = document.createElement("section");
   const title         = document.createElement("h2");
   const footer        = document.createElement("footer");
   const closeBtn      = document.createElement("span");
+  const returnBtn      = document.createElement("span");
   const addBtn        = document.createElement("button");
   const modalBorder   = document.createElement("div");
   const modalGallery  = document.createElement("section");
 
   modal.classList.add("modal");
+  returnBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
+  returnBtn.classList.add("return", "hidden");
   closeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
   closeBtn.classList.add("close");
   title.innerText = "Galerie Photo";
@@ -178,63 +229,18 @@ function displayModal() {
   modalBorder.classList.add("modal-border");
   modalGallery.classList.add("modal-gallery");
   
-
   createAllWorks(modalGallery);
 
   addBtn.addEventListener('click', () => {
-    modalGallery.innerHTML = "";
-    addBtn.type = "submit";
-    addBtn.innerText = "Valider";
-    title.innerText = "Ajout photo";
-
-    const form            = document.createElement('form');
-    const photoForm       = document.createElement('input');
-    const titreForm       = document.createElement('input');
-    const titreLabel      = document.createElement('label');
-    const categorieForm   = document.createElement('input');
-    const categorieLabel  = document.createElement('label');
-
-    form.classList.add('form-modal');
-    photoForm.classList.add('photo-input');
-    titreForm.classList.add('text-input');
-    categorieForm.classList.add('text-input');
-
-    photoForm.type = 'file';
-    photoForm.name = 'image';
-    photoForm.required = true;
-    
-
-    titreLabel.innerText = 'Titre';
-    titreLabel.for = 'titreForm';
-
-    categorieLabel.innerText = 'Catégorie';
-    categorieLabel.for = 'categorieForm';
-
-    titreForm.type = 'text';
-    titreForm.name = 'imageUrl';
-    titreForm.placeholder = 'Image URL';
-    titreForm.required = true;
-  
-    categorieForm.type = 'text';
-    categorieForm.name = 'caption';
-    categorieForm.placeholder = 'Caption';
-    categorieForm.required = true;
-  
-    modalGallery.style.marginBottom = '40px';
-
-    form.appendChild(photoForm);
-    form.appendChild(titreLabel);
-    form.appendChild(titreForm);
-    form.appendChild(categorieLabel);
-    form.appendChild(categorieForm);
-
-    modalGallery.appendChild(form);
+    createModal(modalGallery, addBtn, title, returnBtn);
   })
 
+  returnBtn.addEventListener('click', displayModal);
   closeBtn.addEventListener('click', closeModal);
 
   portfolio.appendChild(modal);
   modal.appendChild(header);
+  header.appendChild(returnBtn);
   header.appendChild(closeBtn);
   modal.appendChild(title);
   modal.appendChild(modalGallery);
@@ -265,7 +271,7 @@ async function deleteModal(id) {
     })
     .then(response => {
       if (response.ok) {
-        console.log('La ressource a été supprimée avec succès.');
+        createAllWorks(gallery);
       } else {
         console.log('Une erreur s\'est produite lors de la suppression de la ressource.');
       }
