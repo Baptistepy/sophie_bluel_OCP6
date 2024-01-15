@@ -168,14 +168,23 @@ function createModal(modalGallery, addBtn, title, returnBtn) {
   const photoForm       = document.createElement('input');
   const titreForm       = document.createElement('input');
   const titreLabel      = document.createElement('label');
-  const categorieForm   = document.createElement('input');
+  const categorieForm   = document.createElement('select');
   const categorieLabel  = document.createElement('label');
+  const options         = ["Appartements", "Objets", "Hôtels & restaurants"];
 
+  
   returnBtn.classList.remove("hidden");
   form.classList.add('form-modal');
   photoForm.classList.add('photo-input');
   titreForm.classList.add('text-input');
   categorieForm.classList.add('text-input');
+
+  options.forEach(option => {
+    const optionElement = document.createElement('option');
+    optionElement.value = option;
+    optionElement.innerText = option;
+    categorieForm.appendChild(optionElement);
+  })
 
   photoForm.type = 'file';
   photoForm.name = 'image';
@@ -191,8 +200,8 @@ function createModal(modalGallery, addBtn, title, returnBtn) {
   titreForm.name = 'imageUrl';
   titreForm.required = true;
 
-  categorieForm.type = 'text';
-  categorieForm.name = 'caption';
+  categorieForm.id = 'category';
+  categorieForm.name = 'category';
   categorieForm.required = true;
 
   modalGallery.style.marginBottom = '40px';
@@ -207,6 +216,8 @@ function createModal(modalGallery, addBtn, title, returnBtn) {
 }
 
 function displayModal() {
+  const body = document.querySelector("body");
+
   const header        = document.createElement("header");
   const modal         = document.createElement("section");
   const title         = document.createElement("h2");
@@ -217,6 +228,8 @@ function displayModal() {
   const modalBorder   = document.createElement("div");
   const modalGallery  = document.createElement("section");
 
+
+  body.classList.add("modal-bg");
   modal.classList.add("modal");
   returnBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
   returnBtn.classList.add("return", "hidden");
@@ -251,7 +264,9 @@ function displayModal() {
 
 function closeModal() {
   const modal = document.querySelector('.modal');
+  const body  = document.querySelector("body");
   modal.remove();
+  body.classList.remove("modal-bg");
 }
 
 /**

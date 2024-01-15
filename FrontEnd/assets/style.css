@@ -397,13 +397,15 @@ input {
 }
 
 .modal {
-  position: fixed;
+  position: fixed !important;
+  z-index: 9999;
   top: 100px;
   left: calc(50vw - 315px);
   border-radius: 10px;
   width: 630px;
   height: 688px;
   background-color: #fff;  
+  opacity: 1;
 }
 
 .modal h2 {
@@ -515,4 +517,12 @@ input {
   border-radius: 3px;
   padding: 9px 5px;
   background-color: #000;
+}
+
+.body-modal {
+  background-color: gray;
+}
+
+.modal-bg {
+  z-index: 9998;
 }
