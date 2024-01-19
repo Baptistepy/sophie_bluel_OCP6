@@ -176,16 +176,14 @@ function createModal(modalGallery, addBtn, title, returnBtn) {
   const categorieLabel  = document.createElement('label');
   const options         = ["Appartements", "Objets", "Hôtels & restaurants"];
 
-  
-
   returnBtn.classList.remove("hidden");
   form.classList.add('form-modal');
   addPhoto.classList.add('add-photo');
   photoInput.classList.add('photo-btn');
   textPhoto.innerHTML = "jpg, png : 4mo max";
   textPhoto.classList.add('text-photo');
-  imgBtn.classList.add('fa-regular', 'fa-image', 'fa-5x', 'image-preview', 'file-input-button');
-  photoBtn.classList.add('photo-label');
+  imgBtn.classList.add('fa-regular', 'fa-image', 'fa-5x', 'image-preview');
+  photoBtn.classList.add('photo-label', 'file-input-button');
   titreForm.classList.add('text-input');
   categorieForm.classList.add('text-input');
 
@@ -197,11 +195,10 @@ function createModal(modalGallery, addBtn, title, returnBtn) {
   })
 
   photoInput.type = 'file';
-  photoInput.name = 'image';
   photoInput.required = true;
-  
+
+  photoBtn.type = 'file';
   photoBtn.innerText = '+ Ajouter Photo';
-  photoBtn.for = 'photoForm';
 
   titreLabel.innerText = 'Titre';
   titreLabel.for = 'titreForm';
