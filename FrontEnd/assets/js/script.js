@@ -165,7 +165,11 @@ function createModal(modalGallery, addBtn, title, returnBtn) {
   title.innerText = "Ajout photo";
 
   const form            = document.createElement('form');
-  const photoForm       = document.createElement('input');
+  const addPhoto        = document.createElement('div');
+  const imgBtn          = document.createElement('span');
+  const photoInput      = document.createElement('input');
+  const photoBtn        = document.createElement('button');
+  const textPhoto       = document.createElement('p');
   const titreForm       = document.createElement('input');
   const titreLabel      = document.createElement('label');
   const categorieForm   = document.createElement('select');
@@ -173,9 +177,15 @@ function createModal(modalGallery, addBtn, title, returnBtn) {
   const options         = ["Appartements", "Objets", "Hôtels & restaurants"];
 
   
+
   returnBtn.classList.remove("hidden");
   form.classList.add('form-modal');
-  photoForm.classList.add('photo-input');
+  addPhoto.classList.add('add-photo');
+  photoInput.classList.add('photo-btn');
+  textPhoto.innerHTML = "jpg, png : 4mo max";
+  textPhoto.classList.add('text-photo');
+  imgBtn.classList.add('fa-regular', 'fa-image', 'fa-5x', 'image-preview', 'file-input-button');
+  photoBtn.classList.add('photo-label');
   titreForm.classList.add('text-input');
   categorieForm.classList.add('text-input');
 
@@ -186,10 +196,13 @@ function createModal(modalGallery, addBtn, title, returnBtn) {
     categorieForm.appendChild(optionElement);
   })
 
-  photoForm.type = 'file';
-  photoForm.name = 'image';
-  photoForm.required = true;
+  photoInput.type = 'file';
+  photoInput.name = 'image';
+  photoInput.required = true;
   
+  photoBtn.innerText = '+ Ajouter Photo';
+  photoBtn.for = 'photoForm';
+
   titreLabel.innerText = 'Titre';
   titreLabel.for = 'titreForm';
 
@@ -206,13 +219,20 @@ function createModal(modalGallery, addBtn, title, returnBtn) {
 
   modalGallery.style.marginBottom = '40px';
 
-  form.appendChild(photoForm);
+  form.appendChild(addPhoto);
+  form.appendChild(photoInput);
+  form.appendChild(photoBtn);
   form.appendChild(titreLabel);
   form.appendChild(titreForm);
   form.appendChild(categorieLabel);
   form.appendChild(categorieForm);
 
   modalGallery.appendChild(form);
+
+  addPhoto.appendChild(photoInput);
+  addPhoto.appendChild(photoBtn);
+  addPhoto.appendChild(imgBtn);
+  addPhoto.appendChild(textPhoto);
 }
 
 function displayModal() {

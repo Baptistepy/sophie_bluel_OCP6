@@ -494,7 +494,7 @@ input {
   color: #000;
 }
 
-.photo-input {
+.add-photo {
   display: flex;
   flex-direction: column;
   height: 169px;
@@ -503,9 +503,36 @@ input {
   background: #E8F1F6;
 }
 
+.photo-btn {
+  display: none;
+}
+
+.photo-label {
+  position: absolute;
+  bottom: 270px;
+  right: 240px;
+  padding: 10px 25px 10px 25px;
+  margin: 0 !important; 
+  border: 1px solid transparent;
+  border-radius: 50px;
+  font-family: Work Sans;
+  color: #306685;
+  background: #CBD6DC;
+}
+
 .text-input {
+  height: 40px;
+  border: none;
   background: #FFF;
   box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+}
+
+.text-photo {
+  position: relative;
+  left: 155px;
+  top: 50px;
+  opacity: 0.8;
+  font-size: 12px;
 }
 
 .form-modal label {
@@ -517,6 +544,13 @@ input {
   border-radius: 3px;
   padding: 9px 5px;
   background-color: #000;
+}
+
+.image-preview {
+  display: flex;
+  margin-top: 15px;
+  justify-content: center;
+  opacity: 0.3;
 }
 
 .body-modal {
