@@ -140,11 +140,11 @@ function logout() {
  */
 function displayAdmin() {
   if (checkConnection()) {
-    const login       = document.querySelector('#login');
-    const filters     = document.querySelector('#filters');
-    const adminLine   = document.querySelector('.black-band');
-    const modifModal  = document.querySelector('.projet-title');
-    const modifBtn    = document.querySelector('.modif-modal');
+    const login          = document.querySelector('#login');
+    const filters        = document.querySelector('#filters');
+    const adminLine      = document.querySelector('.black-band');
+    const modifModal     = document.querySelector('.projet-title');
+    const modifBtn       = document.querySelector('.modif-modal');
 
     login.innerHTML = "<button>logout</button>";
     login.addEventListener("click", logout);
@@ -153,9 +153,26 @@ function displayAdmin() {
     adminLine.style.display = "flex";
     modifBtn.style.display = "block";
 
-    modifBtn.addEventListener("click", displayModal);
+    modifBtn.addEventListener("click", function() {
+      displayModal();
+      applyModalBlur();
+    });
     modifModal.insertAdjacentElement("afterend", modifBtn);
   }
+}
+
+function applyModalBlur() {
+  const body = document.querySelector('body');
+  const backgroundOverlay = document.createElement('div');
+
+  backgroundOverlay.classList.add('background-overlay');
+  body.appendChild(backgroundOverlay);
+}
+
+function removeModalBlur() {
+  const body = document.querySelector('body');
+  const backgroundOverlay = document.querySelector('.background-overlay');
+  body.removeChild(backgroundOverlay);
 }
 
 function createModal(modalGallery, addBtn, title, returnBtn) {
@@ -233,7 +250,6 @@ function createModal(modalGallery, addBtn, title, returnBtn) {
 }
 
 function displayModal() {
-  const body = document.querySelector("body");
 
   const header        = document.createElement("header");
   const modal         = document.createElement("section");
@@ -246,7 +262,6 @@ function displayModal() {
   const modalGallery  = document.createElement("section");
 
 
-  body.classList.add("modal-bg");
   modal.classList.add("modal");
   returnBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
   returnBtn.classList.add("return", "hidden");
@@ -266,7 +281,10 @@ function displayModal() {
   })
 
   returnBtn.addEventListener('click', displayModal);
-  closeBtn.addEventListener('click', closeModal);
+  closeBtn.addEventListener('click', function() {
+    closeModal();
+    removeModalBlur();
+  });
 
   portfolio.appendChild(modal);
   modal.appendChild(header);
@@ -283,7 +301,7 @@ function closeModal() {
   const modal = document.querySelector('.modal');
   const body  = document.querySelector("body");
   modal.remove();
-  body.classList.remove("modal-bg");
+  body.classList.remove("modal-open");
 }
 
 /**

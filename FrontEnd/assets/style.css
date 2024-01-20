@@ -405,7 +405,6 @@ input {
   width: 630px;
   height: 688px;
   background-color: #fff;  
-  opacity: 1;
 }
 
 .modal h2 {
@@ -553,10 +552,11 @@ input {
   opacity: 0.3;
 }
 
-.body-modal {
-  background-color: gray;
-}
-
-.modal-bg {
-  z-index: 9998;
+.background-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
 }
