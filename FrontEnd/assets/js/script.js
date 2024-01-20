@@ -175,7 +175,7 @@ function removeModalBlur() {
   body.removeChild(backgroundOverlay);
 }
 
-function createModal(modalGallery, addBtn, title, returnBtn) {
+async function createModal(modalGallery, addBtn, title, returnBtn) {
   modalGallery.innerHTML = "";
   addBtn.type = "submit";
   addBtn.innerText = "Valider";
@@ -185,13 +185,13 @@ function createModal(modalGallery, addBtn, title, returnBtn) {
   const addPhoto        = document.createElement('div');
   const imgBtn          = document.createElement('span');
   const photoInput      = document.createElement('input');
-  const photoBtn        = document.createElement('button');
+  const photoBtn        = document.createElement('label');
   const textPhoto       = document.createElement('p');
   const titreForm       = document.createElement('input');
   const titreLabel      = document.createElement('label');
   const categorieForm   = document.createElement('select');
   const categorieLabel  = document.createElement('label');
-  const options         = ["Appartements", "Objets", "Hôtels & restaurants"];
+  const options         = await getCategories();
 
   returnBtn.classList.remove("hidden");
   form.classList.add('form-modal');
@@ -206,10 +206,13 @@ function createModal(modalGallery, addBtn, title, returnBtn) {
 
   options.forEach(option => {
     const optionElement = document.createElement('option');
-    optionElement.value = option;
-    optionElement.innerText = option;
+    optionElement.value = option.id;
+    optionElement.innerText = option.name;
     categorieForm.appendChild(optionElement);
   })
+
+  photoInput.id = 'photo';
+  photoBtn.setAttribute('for', 'photo');
 
   photoInput.type = 'file';
   photoInput.required = true;

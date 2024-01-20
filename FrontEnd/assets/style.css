@@ -546,7 +546,7 @@ input {
 }
 
 .image-preview {
-  display: flex;
+  display: flex !important;
   margin-top: 15px;
   justify-content: center;
   opacity: 0.3;
