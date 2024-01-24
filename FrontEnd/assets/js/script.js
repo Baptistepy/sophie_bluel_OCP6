@@ -185,6 +185,7 @@ async function createModal(modalGallery, addBtn, title, returnBtn) {
   const addPhoto        = document.createElement('div');
   const imgBtn          = document.createElement('span');
   const photoInput      = document.createElement('input');
+  const photoOutput     = document.createElement('output');
   const photoBtn        = document.createElement('label');
   const textPhoto       = document.createElement('p');
   const titreForm       = document.createElement('input');
@@ -192,6 +193,8 @@ async function createModal(modalGallery, addBtn, title, returnBtn) {
   const categorieForm   = document.createElement('select');
   const categorieLabel  = document.createElement('label');
   const options         = await getCategories();
+
+
 
   returnBtn.classList.remove("hidden");
   form.classList.add('form-modal');
@@ -213,9 +216,10 @@ async function createModal(modalGallery, addBtn, title, returnBtn) {
 
   photoInput.id = 'photo';
   photoBtn.setAttribute('for', 'photo');
-
   photoInput.type = 'file';
   photoInput.required = true;
+
+  photoOutput.id = 'preview';
 
   photoBtn.type = 'file';
   photoBtn.innerText = '+ Ajouter Photo';
@@ -247,10 +251,33 @@ async function createModal(modalGallery, addBtn, title, returnBtn) {
   modalGallery.appendChild(form);
 
   addPhoto.appendChild(photoInput);
+  addPhoto.appendChild(photoOutput);
   addPhoto.appendChild(photoBtn);
   addPhoto.appendChild(imgBtn);
   addPhoto.appendChild(textPhoto);
+
+  document.getElementById('photo').addEventListener('change', handleFileSelect, false);
 }
+
+function handleFileSelect(evt) {
+var files = evt.target.files;
+
+for (var i = 0, f; f = files[i]; i++) {
+  if (!f.type.match('image.*')) {
+    continue;
+  }
+  var reader = new FileReader();
+  reader.onload = (function(theFile) {
+    return function(e) {
+      var span = document.createElement('span');
+      span.innerHTML = ['<img class="thumb" src="', e.target.result, '" title="', escape(theFile.name), '"/>'].join('');
+      document.getElementById('preview').insertBefore(span, null);
+    };
+  })(f);
+  reader.readAsDataURL(f);
+}
+}
+
 
 function displayModal() {
 
