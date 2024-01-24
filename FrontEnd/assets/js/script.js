@@ -229,6 +229,7 @@ async function createModal(modalGallery, addBtn, title, returnBtn) {
   categorieLabel.for = 'categorieForm';
 
   titreForm.type = 'text';
+  titreForm.id = 'titre';
   titreForm.name = 'imageUrl';
   titreForm.required = true;
 
@@ -280,19 +281,6 @@ for (var i = 0, f; f = files[i]; i++) {
       document.getElementById('preview').insertBefore(span, null);
     };
   })(f);
-
-  fetch('http://localhost:5678/api/works')
-    .then(response => response.json())
-    .then(data => {
-      const imageName = title.name
-      const imageCategory = id.category
-
-      document.getElementById('photo').value = imageName
-      document.getElementById('category').value = imageCategory
-    })
-    .catch(error => {
-      console.error('Une erreur s\'est produite lors de la création du projet :', error);
-    });
   reader.readAsDataURL(f);
 }
   photoInput.style.display = "none";
@@ -301,14 +289,18 @@ for (var i = 0, f; f = files[i]; i++) {
 }
 
 async function submitNewProject() {
-  try {
-    const response = await fetch(API_URL + '/works');
-    const works = await response.json();
+  try {    
+    const response      = await fetch(API_URL + '/works');
+    const works         = await response.json();
+    const formData      = new FormData();
+    const imgUrl        = document.getElementById('photo').files[0];
+    const title         = document.getElementById('titre').value;
+    const category      = document.getElementById('category');
+    const categoryValue = category.options[category.selectedIndex].value;
 
-    const formData = new FormData();
-    formData.append('projectName', 'Nom du projet');
-    formData.append('projectDescription', 'Description du projet');
-    formData.append('projectImage', document.getElementById('photo').files[0]);
+    formData.append('image', imgUrl);
+    formData.append('title', title);
+    formData.append('category', categoryValue);
 
     const createResponse = await fetch('http://localhost:5678/api/works', {
       method: 'POST',
