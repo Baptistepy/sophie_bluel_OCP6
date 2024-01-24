@@ -289,37 +289,29 @@ for (var i = 0, f; f = files[i]; i++) {
 }
 
 async function submitNewProject() {
-  try {    
-    const response      = await fetch(API_URL + '/works');
-    const works         = await response.json();
-    const formData      = new FormData();
-    const imgUrl        = document.getElementById('photo').files[0];
-    const title         = document.getElementById('titre').value;
-    const category      = document.getElementById('category');
-    const categoryValue = category.options[category.selectedIndex].value;
-
-    formData.append('image', imgUrl);
-    formData.append('title', title);
-    formData.append('category', categoryValue);
-
-    const createResponse = await fetch('http://localhost:5678/api/works', {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      }
-    });
-
-    if (createResponse.ok) {
-      const newProject = await createResponse.json();
-      console.log(newProject);
-    } else {
-      console.error('Erreur lors de la création du projet');
-    }
-  } catch (error) {
-    console.error(error);
+  const formData = {
+    'title': document.getElementById('titre').value,
+    'category': document.getElementById('category').value,
+    'imageUrl': document.getElementById('photo').value
   }
+  const createResponse = await fetch('http://localhost:5678/api/works', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(formData),
+  });
+    if (createResponse.ok) {
+    const newProject = await createResponse.json();
+    console.log(newProject);
+  
+    await getWorks();
+  } else {
+    console.error('Erreur lors de la création du projet');
+  }  
 }
+
 
 function displayModal() {
 
