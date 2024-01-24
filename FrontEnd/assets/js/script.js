@@ -193,9 +193,7 @@ async function createModal(modalGallery, addBtn, title, returnBtn) {
   const categorieForm   = document.createElement('select');
   const categorieLabel  = document.createElement('label');
   const options         = await getCategories();
-
-
-
+b
   returnBtn.classList.remove("hidden");
   form.classList.add('form-modal');
   addPhoto.classList.add('add-photo');
@@ -256,26 +254,36 @@ async function createModal(modalGallery, addBtn, title, returnBtn) {
   addPhoto.appendChild(imgBtn);
   addPhoto.appendChild(textPhoto);
 
-  document.getElementById('photo').addEventListener('change', handleFileSelect, false);
+  document.getElementById('photo').addEventListener('change', handleFileSelect, false );
 }
 
 function handleFileSelect(evt) {
-var files = evt.target.files;
+const files       = evt.target.files;
+const photoInput  = document.getElementById('photo');
+const photoBtn    = document.querySelector('.photo-label');
+const textPhoto   = document.querySelector('.text-photo');
 
 for (var i = 0, f; f = files[i]; i++) {
   if (!f.type.match('image.*')) {
     continue;
   }
-  var reader = new FileReader();
+  if (f.size >4194304) { 
+    alert("L'image est trop volumineuse. Veuillez sélectionner une image plus petite.");
+    continue;
+  }
+  const reader = new FileReader();
   reader.onload = (function(theFile) {
     return function(e) {
-      var span = document.createElement('span');
+      const span = document.createElement('span');
       span.innerHTML = ['<img class="thumb" src="', e.target.result, '" title="', escape(theFile.name), '"/>'].join('');
       document.getElementById('preview').insertBefore(span, null);
     };
   })(f);
   reader.readAsDataURL(f);
 }
+  photoInput.style.display = "none";
+  photoBtn.style.display = "none";
+  textPhoto.style.display = "none";
 }
 
 

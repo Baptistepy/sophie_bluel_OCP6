@@ -560,3 +560,14 @@ input {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
 }
+
+[id="preview"] {
+  position: absolute;
+  right: 255px;
+  z-index: 9999;
+}
+
+[id="preview"] img {
+  width: 129px;
+  height: 169px;
+}
