@@ -193,7 +193,7 @@ async function createModal(modalGallery, addBtn, title, returnBtn) {
   const categorieForm   = document.createElement('select');
   const categorieLabel  = document.createElement('label');
   const options         = await getCategories();
-b
+
   returnBtn.classList.remove("hidden");
   form.classList.add('form-modal');
   addPhoto.classList.add('add-photo');
@@ -254,6 +254,7 @@ b
   addPhoto.appendChild(imgBtn);
   addPhoto.appendChild(textPhoto);
 
+  addBtn.addEventListener('click', submitNewProject);
   document.getElementById('photo').addEventListener('change', handleFileSelect, false );
 }
 
@@ -279,6 +280,19 @@ for (var i = 0, f; f = files[i]; i++) {
       document.getElementById('preview').insertBefore(span, null);
     };
   })(f);
+
+  fetch('http://localhost:5678/api/works')
+    .then(response => response.json())
+    .then(data => {
+      const imageName = title.name
+      const imageCategory = id.category
+
+      document.getElementById('photo').value = imageName
+      document.getElementById('category').value = imageCategory
+    })
+    .catch(error => {
+      console.error('Une erreur s\'est produite lors de la création du projet :', error);
+    });
   reader.readAsDataURL(f);
 }
   photoInput.style.display = "none";
@@ -286,6 +300,34 @@ for (var i = 0, f; f = files[i]; i++) {
   textPhoto.style.display = "none";
 }
 
+async function submitNewProject() {
+  try {
+    const response = await fetch(API_URL + '/works');
+    const works = await response.json();
+
+    const formData = new FormData();
+    formData.append('projectName', 'Nom du projet');
+    formData.append('projectDescription', 'Description du projet');
+    formData.append('projectImage', document.getElementById('photo').files[0]);
+
+    const createResponse = await fetch('http://localhost:5678/api/works', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+
+    if (createResponse.ok) {
+      const newProject = await createResponse.json();
+      console.log(newProject);
+    } else {
+      console.error('Erreur lors de la création du projet');
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 function displayModal() {
 
