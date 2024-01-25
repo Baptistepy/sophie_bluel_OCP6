@@ -259,58 +259,7 @@ async function createModal(modalGallery, addBtn, title, returnBtn) {
   document.getElementById('photo').addEventListener('change', handleFileSelect, false );
 }
 
-function handleFileSelect(evt) {
-const files       = evt.target.files;
-const photoInput  = document.getElementById('photo');
-const photoBtn    = document.querySelector('.photo-label');
-const textPhoto   = document.querySelector('.text-photo');
 
-for (var i = 0, f; f = files[i]; i++) {
-  if (!f.type.match('image.*')) {
-    continue;
-  }
-  if (f.size >4194304) { 
-    alert("L'image est trop volumineuse. Veuillez sélectionner une image plus petite.");
-    continue;
-  }
-  const reader = new FileReader();
-  reader.onload = (function(theFile) {
-    return function(e) {
-      const span = document.createElement('span');
-      span.innerHTML = ['<img class="thumb" src="', e.target.result, '" title="', escape(theFile.name), '"/>'].join('');
-      document.getElementById('preview').insertBefore(span, null);
-    };
-  })(f);
-  reader.readAsDataURL(f);
-}
-  photoInput.style.display = "none";
-  photoBtn.style.display = "none";
-  textPhoto.style.display = "none";
-}
-
-async function submitNewProject() {
-  const formData = {
-    'title': document.getElementById('titre').value,
-    'category': document.getElementById('category').value,
-    'imageUrl': document.getElementById('photo').value
-  }
-  const createResponse = await fetch('http://localhost:5678/api/works', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    },
-    body: JSON.stringify(formData),
-  });
-    if (createResponse.ok) {
-    const newProject = await createResponse.json();
-    console.log(newProject);
-  
-    await getWorks();
-  } else {
-    console.error('Erreur lors de la création du projet');
-  }  
-}
 
 
 function displayModal() {
@@ -394,6 +343,64 @@ async function deleteModal(id) {
       console.log('Une erreur s\'est produite lors de la suppression de la ressource :', error);
     });
 }
+
+function handleFileSelect(evt) {
+  const files       = evt.target.files;
+  const photoInput  = document.getElementById('photo');
+  const photoBtn    = document.querySelector('.photo-label');
+  const textPhoto   = document.querySelector('.text-photo');
+  
+  for (var i = 0, f; f = files[i]; i++) {
+    if (!f.type.match('image.*')) {
+      continue;
+    }
+    if (f.size >4194304) { 
+      alert("L'image est trop volumineuse. Veuillez sélectionner une image plus petite.");
+      continue;
+    }
+    const reader = new FileReader();
+    reader.onload = (function(theFile) {
+      return function(e) {
+        const span = document.createElement('span');
+        span.innerHTML = ['<img class="thumb" src="', e.target.result, '" title="', escape(theFile.name), '"/>'].join('');
+        document.getElementById('preview').insertBefore(span, null);
+      };
+    })(f);
+    reader.readAsDataURL(f);
+  }
+    photoInput.style.display = "none";
+    photoBtn.style.display = "none";
+    textPhoto.style.display = "none";
+  }
+  
+  async function submitNewProject() {
+    const title = document.getElementById('title');
+    const category = document.getElementById('category');
+    const photo = document.getElementById('photo');
+
+    const formData = new FormData();
+
+    formData.append('title', title.value);
+    formData.append('category', category.value);
+    formData.append('photo', photo.files[0]);
+
+    await fetch('http://localhost:5678/api/works', {
+      method : 'POST',
+      headers : {
+        "Authorization": `Bearer ${localStorage.getItem('token')}`
+      },
+      body : formData
+    })
+    .then (response => {
+      if (response.ok) {
+        createAllWorks(gallery);
+        closeModal();
+        removeModalBlur();
+      } else {
+        console.log('Une erreur s\'est produite lors de la création de la ressource.');
+      }
+    })
+  }
 // ******************************* CODE PRINCIPAL *******************************
 
 displayAdmin();
