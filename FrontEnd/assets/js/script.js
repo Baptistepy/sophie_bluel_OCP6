@@ -177,7 +177,6 @@ function removeModalBlur() {
 
 async function createModal(modalGallery, addBtn, title, returnBtn) {
   modalGallery.innerHTML = "";
-  addBtn.type = "submit";
   addBtn.innerText = "Valider";
   title.innerText = "Ajout photo";
 
@@ -196,6 +195,8 @@ async function createModal(modalGallery, addBtn, title, returnBtn) {
 
   returnBtn.classList.remove("hidden");
   form.classList.add('form-modal');
+  form.setAttribute('enctype', 'multipart/form-data');
+  form.id = 'form-modal';
   addPhoto.classList.add('add-photo');
   photoInput.classList.add('photo-btn');
   textPhoto.innerHTML = "jpg, png : 4mo max";
@@ -230,18 +231,20 @@ async function createModal(modalGallery, addBtn, title, returnBtn) {
 
   titreForm.type = 'text';
   titreForm.id = 'titre';
-  titreForm.name = 'imageUrl';
   titreForm.required = true;
 
   categorieForm.id = 'category';
-  categorieForm.name = 'category';
   categorieForm.required = true;
 
   modalGallery.style.marginBottom = '40px';
 
+  addPhoto.appendChild(photoInput);
+  addPhoto.appendChild(photoOutput);
+  addPhoto.appendChild(imgBtn);
+  addPhoto.appendChild(photoBtn);
+  addPhoto.appendChild(textPhoto);
+
   form.appendChild(addPhoto);
-  form.appendChild(photoInput);
-  form.appendChild(photoBtn);
   form.appendChild(titreLabel);
   form.appendChild(titreForm);
   form.appendChild(categorieLabel);
@@ -249,18 +252,11 @@ async function createModal(modalGallery, addBtn, title, returnBtn) {
 
   modalGallery.appendChild(form);
 
-  addPhoto.appendChild(photoInput);
-  addPhoto.appendChild(photoOutput);
-  addPhoto.appendChild(photoBtn);
-  addPhoto.appendChild(imgBtn);
-  addPhoto.appendChild(textPhoto);
-
   addBtn.addEventListener('click', submitNewProject);
-  document.getElementById('photo').addEventListener('change', handleFileSelect, false );
+    const titleInput    = document.getElementById('titre');
+    console.log(titleInput)
+    document.getElementById('photo').addEventListener('change', handleFileSelect);
 }
-
-
-
 
 function displayModal() {
 
@@ -308,6 +304,7 @@ function displayModal() {
   footer.appendChild(addBtn);
   footer.appendChild(modalBorder);
   modal.appendChild(footer);
+
 }
 
 function closeModal() {
@@ -374,16 +371,22 @@ function handleFileSelect(evt) {
   }
   
   async function submitNewProject() {
-    const title = document.getElementById('title');
-    const category = document.getElementById('category');
-    const photo = document.getElementById('photo');
+    const form          = document.querySelector('.form-modal');
+    const titleInput    = document.getElementById('titre');
+    const categoryInput = document.getElementById('category');
+    const photoField    = document.getElementById('photo');
+    const formData      = new FormData();
 
-    const formData = new FormData();
+    console.log(form);
+    console.log(titleInput);
+    console.log(categoryInput);
+    console.log(photoField);
 
-    formData.append('title', title.value);
-    formData.append('category', category.value);
-    formData.append('photo', photo.files[0]);
+    formData.append("title", titleInput.value);
+    formData.append("category", categoryInput.value);
+    formData.append("photo", photoField.files[0]);
 
+    console.log('formdata', formData);
     await fetch('http://localhost:5678/api/works', {
       method : 'POST',
       headers : {
@@ -392,13 +395,17 @@ function handleFileSelect(evt) {
       body : formData
     })
     .then (response => {
+      console.log(response);
       if (response.ok) {
-        createAllWorks(gallery);
+        createWork();
         closeModal();
         removeModalBlur();
       } else {
         console.log('Une erreur s\'est produite lors de la création de la ressource.');
       }
+    })
+    .catch(error => {
+      console.log('Une erreur s\'est produite lors de la création de la ressource :', error);
     })
   }
 // ******************************* CODE PRINCIPAL *******************************
