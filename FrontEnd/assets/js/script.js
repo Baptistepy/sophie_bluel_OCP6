@@ -2,6 +2,7 @@
 
 // ******************************* CONSTANTES *******************************
 
+
 const API_URL = 'http://localhost:5678/api';
 
 const gallery = document.querySelector('.gallery');
@@ -9,12 +10,19 @@ const gallery = document.querySelector('.gallery');
 const btns = document.querySelectorAll('.btn');
 
 const portfolio = document.querySelector('#portfolio');
+
+
 // ******************************* VARIABLES *******************************
+
 
 let works = [];
 let categories = [];
 
+
 // ******************************* FONCTIONS *******************************
+
+// ******************************* WORKS AND FILTERS *******************************
+
 
 /**
  * Creates a new element and appends it to the gallery.
@@ -117,6 +125,8 @@ function addFilteredListeners() {
   );
 }
 
+// ******************************* ADMIN *******************************
+
 /**
  * Check the connection by retrieving the token from local storage.
  *
@@ -175,6 +185,75 @@ function removeModalBlur() {
   body.removeChild(backgroundOverlay);
 }
 
+
+// ******************************* FIRST MODAL *******************************
+
+
+/**
+ * Function to display a modal with a photo gallery and buttons for adding and returning.
+ */
+function displayModal() {
+
+  const header        = document.createElement("header");
+  const modal         = document.createElement("section");
+  const title         = document.createElement("h2");
+  const footer        = document.createElement("footer");
+  const closeBtn      = document.createElement("span");
+  const returnBtn      = document.createElement("span");
+  const addBtn        = document.createElement("button");
+  const modalBorder   = document.createElement("div");
+  const modalGallery  = document.createElement("section");
+
+
+  modal.classList.add("modal");
+  returnBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
+  returnBtn.classList.add("return", "hidden");
+  closeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+  closeBtn.classList.add("close");
+  title.innerText = "Galerie Photo";
+  addBtn.innerText = "Ajouter une Photo";
+  addBtn.classList.add("btn-active");
+  addBtn.classList.add("btn");
+  modalBorder.classList.add("modal-border");
+  modalGallery.classList.add("modal-gallery");
+  
+  createAllWorks(modalGallery);
+
+  addBtn.addEventListener('click', () => {
+    createModal(modalGallery, addBtn, title, returnBtn);
+  })
+
+  returnBtn.addEventListener('click', displayModal);
+  closeBtn.addEventListener('click', function() {
+    closeModal();
+    removeModalBlur();
+  });
+
+  portfolio.appendChild(modal);
+  modal.appendChild(header);
+  header.appendChild(returnBtn);
+  header.appendChild(closeBtn);
+  modal.appendChild(title);
+  modal.appendChild(modalGallery);
+  footer.appendChild(addBtn);
+  footer.appendChild(modalBorder);
+  modal.appendChild(footer);
+
+}
+
+
+// ******************************* SECOND MODAL *******************************
+
+
+/**
+ * An asynchronous function that creates a modal for adding photos.
+ *
+ * @param {Object} modalGallery - the DOM element for the modal gallery
+ * @param {Object} addBtn - the button element for adding photos
+ * @param {string} title - the title for the modal
+ * @param {Object} returnBtn - the button element for returning to the previous page
+ * @return {Promise} a Promise that resolves when the modal is created
+ */
 async function createModal(modalGallery, addBtn, title, returnBtn) {
   modalGallery.innerHTML = "";
   addBtn.innerText = "Valider";
@@ -258,88 +337,9 @@ async function createModal(modalGallery, addBtn, title, returnBtn) {
     document.getElementById('photo').addEventListener('change', handleFileSelect);
 }
 
-function displayModal() {
 
-  const header        = document.createElement("header");
-  const modal         = document.createElement("section");
-  const title         = document.createElement("h2");
-  const footer        = document.createElement("footer");
-  const closeBtn      = document.createElement("span");
-  const returnBtn      = document.createElement("span");
-  const addBtn        = document.createElement("button");
-  const modalBorder   = document.createElement("div");
-  const modalGallery  = document.createElement("section");
+// ******************************* ADD PROJECT *******************************
 
-
-  modal.classList.add("modal");
-  returnBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
-  returnBtn.classList.add("return", "hidden");
-  closeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-  closeBtn.classList.add("close");
-  title.innerText = "Galerie Photo";
-  addBtn.innerText = "Ajouter une Photo";
-  addBtn.classList.add("btn-active");
-  addBtn.classList.add("btn");
-  modalBorder.classList.add("modal-border");
-  modalGallery.classList.add("modal-gallery");
-  
-  createAllWorks(modalGallery);
-
-  addBtn.addEventListener('click', () => {
-    createModal(modalGallery, addBtn, title, returnBtn);
-  })
-
-  returnBtn.addEventListener('click', displayModal);
-  closeBtn.addEventListener('click', function() {
-    closeModal();
-    removeModalBlur();
-  });
-
-  portfolio.appendChild(modal);
-  modal.appendChild(header);
-  header.appendChild(returnBtn);
-  header.appendChild(closeBtn);
-  modal.appendChild(title);
-  modal.appendChild(modalGallery);
-  footer.appendChild(addBtn);
-  footer.appendChild(modalBorder);
-  modal.appendChild(footer);
-
-}
-
-function closeModal() {
-  const modal = document.querySelector('.modal');
-  const body  = document.querySelector("body");
-  modal.remove();
-  body.classList.remove("modal-open");
-}
-
-/**
- * Deletes a modal with the specified ID.
- *
- * @param {number} id - The ID of the modal to delete.
- * @return {Promise<void>} A promise that resolves when the modal is successfully deleted.
- */
-async function deleteModal(id) {
-  console.log(localStorage.getItem('token'));
-  await fetch(`http://localhost:5678/api/works/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    }
-    })
-    .then(response => {
-      if (response.ok) {
-        createAllWorks(gallery);
-      } else {
-        console.log('Une erreur s\'est produite lors de la suppression de la ressource.');
-      }
-    })
-    .catch(error => {
-      console.log('Une erreur s\'est produite lors de la suppression de la ressource :', error);
-    });
-}
 
 function handleFileSelect(evt) {
   const files       = evt.target.files;
@@ -369,6 +369,7 @@ function handleFileSelect(evt) {
     photoBtn.style.display = "none";
     textPhoto.style.display = "none";
   }
+
   
   async function submitNewProject() {
     const form          = document.querySelector('.form-modal');
@@ -408,6 +409,54 @@ function handleFileSelect(evt) {
       console.log('Une erreur s\'est produite lors de la création de la ressource :', error);
     })
   }
+
+
+// ******************************* CLOSE/DELETE MODAL *******************************
+
+
+/**
+ * Closes the modal and removes the "modal-open" class from the body.
+ */
+function closeModal() {
+  const modal = document.querySelector('.modal');
+  const body  = document.querySelector("body");
+  modal.remove();
+  body.classList.remove("modal-open");
+}
+
+/**
+ * Deletes a modal with the specified ID.
+ *
+ * @param {number} id - The ID of the modal to delete.
+ * @return {Promise<void>} A promise that resolves when the modal is successfully deleted.
+ */
+async function deleteModal(id) {
+  console.log(localStorage.getItem('token'));
+  await fetch(`http://localhost:5678/api/works/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+    })
+    .then(response => {
+      if (response.ok) {
+        createAllWorks(gallery);
+      } else {
+        console.log('Une erreur s\'est produite lors de la suppression de la ressource.');
+      }
+    })
+    .catch(error => {
+      console.log('Une erreur s\'est produite lors de la suppression de la ressource :', error);
+    });
+}
+
+/**
+ * Handles the file selection event, processes the selected files, and updates the DOM accordingly.
+ *
+ * @param {Event} evt - the file selection event
+ */
+
 // ******************************* CODE PRINCIPAL *******************************
 
 displayAdmin();
