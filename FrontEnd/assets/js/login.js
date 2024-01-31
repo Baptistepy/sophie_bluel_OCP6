@@ -19,7 +19,6 @@ const LOGIN_URL = 'http://localhost:5678/api/users/login';
  * @param {event} event - The event object triggered by the login action.
  */
   function loginUser() {
-  event.preventDefault();
   fetch(LOGIN_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -49,7 +48,8 @@ const LOGIN_URL = 'http://localhost:5678/api/users/login';
 
 // ******************************* CODE PRINCIPAL *******************************
 
-document.getElementById('login').addEventListener('submit', function (event) {
-  loginUser(event);
+document.getElementById("login").addEventListener("click", (event) => {
+  event.preventDefault();
+  loginUser();
 });
 
