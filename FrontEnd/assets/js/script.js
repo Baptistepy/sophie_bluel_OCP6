@@ -330,11 +330,10 @@ async function createModal(modalGallery, addBtn, title, returnBtn) {
   form.appendChild(categorieForm);
 
   modalGallery.appendChild(form);
-
-  addBtn.addEventListener('click', submitNewProject);
-    const titleInput    = document.getElementById('titre');
-    console.log(titleInput)
-    document.getElementById('photo').addEventListener('change', handleFileSelect);
+  document.getElementById('photo').addEventListener('change', handleFileSelect);
+  addBtn.addEventListener('click', () => {
+    addProject(titreForm, categorieForm, photoInput);
+  })
 }
 
 
@@ -370,46 +369,32 @@ function handleFileSelect(evt) {
     textPhoto.style.display = "none";
   }
 
-  
-  async function submitNewProject() {
-    const form          = document.querySelector('.form-modal');
-    const titleInput    = document.getElementById('titre');
-    const categoryInput = document.getElementById('category');
-    const photoField    = document.getElementById('photo');
-    const formData      = new FormData();
+function addProject(titreForm, categoryForm, photoInput) {
+  const formData = new FormData();
+  formData.append('title', titreForm.value);
+  formData.append('category', categoryForm.value);
+  formData.append('image', photoInput.files[0]);
 
-    console.log(form);
-    console.log(titleInput);
-    console.log(categoryInput);
-    console.log(photoField);
+  console.log(titreForm);
+  console.log(categoryForm);
+  console.log(photoInput);
 
-    formData.append("title", titleInput.value);
-    formData.append("category", categoryInput.value);
-    formData.append("photo", photoField.files[0]);
-
-    console.log('formdata', formData);
-    await fetch('http://localhost:5678/api/works', {
-      method : 'POST',
-      headers : {
-        "Authorization": `Bearer ${localStorage.getItem('token')}`
-      },
-      body : formData
-    })
-    .then (response => {
-      console.log(response);
+  fetch('http://localhost:5678/api/works', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: formData
+  })
+    .then(response => {
       if (response.ok) {
-        createWork();
-        closeModal();
-        removeModalBlur();
+        createAllWorks(gallery);
       } else {
-        console.log('Une erreur s\'est produite lors de la création de la ressource.');
+        console.log('Une erreur s\'est produite lors de l\'ajout de la ressource.');
       }
     })
-    .catch(error => {
-      console.log('Une erreur s\'est produite lors de la création de la ressource :', error);
-    })
-  }
-
+    .catch(error => console.error(error));
+}
 
 // ******************************* CLOSE/DELETE MODAL *******************************
 
