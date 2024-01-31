@@ -5,10 +5,6 @@
 const emailElt = document.getElementById('email');
 const passwordElt = document.getElementById('password');
 
-const data = {
-  "email": "sophie.bluel@test.tld",
-  "password": "S0phie"
-};
 
 const LOGIN_URL = 'http://localhost:5678/api/users/login';
 
@@ -22,12 +18,15 @@ const LOGIN_URL = 'http://localhost:5678/api/users/login';
  *
  * @param {event} event - The event object triggered by the login action.
  */
-function loginUser(event) {
+  function loginUser() {
   event.preventDefault();
   fetch(LOGIN_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
+    body: JSON.stringify({
+      "email": "sophie.bluel@test.tld",
+      "password": "S0phie"
+    })
   })
     .then(response => response.json())
     .then(data => {

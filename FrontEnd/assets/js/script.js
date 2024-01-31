@@ -199,7 +199,7 @@ function displayModal() {
   const title         = document.createElement("h2");
   const footer        = document.createElement("footer");
   const closeBtn      = document.createElement("span");
-  const returnBtn      = document.createElement("span");
+  const returnBtn     = document.createElement("span");
   const addBtn        = document.createElement("button");
   const modalBorder   = document.createElement("div");
   const modalGallery  = document.createElement("section");
