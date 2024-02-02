@@ -23,7 +23,6 @@ let categories = [];
 
 // ******************************* WORKS AND FILTERS *******************************
 
-
 /**
  * Creates a new element and appends it to the gallery.
  *
@@ -340,6 +339,11 @@ async function createModal(modalGallery, addBtn, title, returnBtn) {
 // ******************************* ADD PROJECT *******************************
 
 
+/**
+ * Handles the file selection event, processes the selected files, and updates the UI accordingly.
+ *
+ * @param {Event} evt - the event object representing the file selection
+ */
 function handleFileSelect(evt) {
   const files       = evt.target.files;
   const photoInput  = document.getElementById('photo');
@@ -369,6 +373,13 @@ function handleFileSelect(evt) {
     textPhoto.style.display = "none";
   }
 
+/**
+ * Adds a new project with the provided title, category, and image.
+ *
+ * @param {HTMLInputElement} titreForm - input element for the project title
+ * @param {HTMLSelectElement} categoryForm - select element for the project category
+ * @param {HTMLInputElement} photoInput - input element for the project image
+ */
 function addProject(titreForm, categoryForm, photoInput) {
   const formData = new FormData();
   formData.append('title', titreForm.value);
@@ -390,10 +401,12 @@ function addProject(titreForm, categoryForm, photoInput) {
       if (response.ok) {
         createAllWorks(gallery);
       } else {
-        console.log('Une erreur s\'est produite lors de l\'ajout de la ressource.');
+        alert('Les données ne sont pas valides');
       }
     })
-    .catch(error => console.error(error));
+    .catch(error => {
+      console.log('Une erreur s\'est produite lors de l\'ajout de la ressource :', error);
+    });
 }
 
 // ******************************* CLOSE/DELETE MODAL *******************************
@@ -428,7 +441,7 @@ async function deleteModal(id) {
       if (response.ok) {
         createAllWorks(gallery);
       } else {
-        console.log('Une erreur s\'est produite lors de la suppression de la ressource.');
+        alert('L\'identifiant ne correspond à aucune ressource');
       }
     })
     .catch(error => {

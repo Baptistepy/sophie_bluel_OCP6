@@ -23,8 +23,8 @@ const LOGIN_URL = 'http://localhost:5678/api/users/login';
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      "email": "sophie.bluel@test.tld",
-      "password": "S0phie"
+      "email": emailElt.value,
+      "password": passwordElt.value
     })
   })
     .then(response => response.json())
@@ -48,7 +48,7 @@ const LOGIN_URL = 'http://localhost:5678/api/users/login';
 
 // ******************************* CODE PRINCIPAL *******************************
 
-document.getElementById("login").addEventListener("click", (event) => {
+document.getElementById("submit").addEventListener("click", (event) => {
   event.preventDefault();
   loginUser();
 });
