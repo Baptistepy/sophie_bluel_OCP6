@@ -251,6 +251,10 @@ li:focus {
   color: #FFFEF8;
 }
 
+.btn-disabled {
+  background: gray;
+}
+
 [id="introduction"] p {
   margin-bottom: 0.5em;
 }
@@ -446,7 +450,6 @@ input {
   position: absolute;
 }
 
-
 .modal-gallery {
   display: flex;
   position: relative;
@@ -455,8 +458,6 @@ input {
   padding-left: 100px;
   padding-right: 100px;
 }
-
-
 
 .modal-gallery figure {
   position: relative;

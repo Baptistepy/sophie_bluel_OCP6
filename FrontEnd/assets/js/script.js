@@ -314,6 +314,10 @@ async function createModal(modalGallery, addBtn, title, returnBtn) {
   categorieForm.id = 'category';
   categorieForm.required = true;
 
+  addBtn.id = 'btn-input';
+  addBtn.disabled = true;
+  addBtn.classList.add('btn-disabled');
+
   modalGallery.style.marginBottom = '40px';
 
   addPhoto.appendChild(photoInput);
@@ -333,8 +337,25 @@ async function createModal(modalGallery, addBtn, title, returnBtn) {
   addBtn.addEventListener('click', () => {
     addProject(titreForm, categorieForm, photoInput);
   })
+
+  titreForm.addEventListener('input', inputListener);
+  categorieForm.addEventListener('input', inputListener);
+  photoInput.addEventListener('input', inputListener);
 }
 
+function inputListener() {
+  const titreForm = document.getElementById('titre');
+  const categorieForm = document.getElementById('category');
+  const photoInput = document.getElementById('photo');
+  const addBtn = document.getElementById('btn-input');
+  
+  if (titreForm.value !== '' && categorieForm.value !== '' && photoInput.value !== '') {
+    addBtn.disabled = false;
+    addBtn.classList.remove('btn-disabled');
+  } else {
+    addBtn.disabled = true;
+  }
+}
 
 // ******************************* ADD PROJECT *******************************
 
@@ -380,15 +401,11 @@ function handleFileSelect(evt) {
  * @param {HTMLSelectElement} categoryForm - select element for the project category
  * @param {HTMLInputElement} photoInput - input element for the project image
  */
-function addProject(titreForm, categoryForm, photoInput) {
+function addProject(titreForm, categoryForm, photoInput,) {
   const formData = new FormData();
   formData.append('title', titreForm.value);
   formData.append('category', categoryForm.value);
   formData.append('image', photoInput.files[0]);
-
-  console.log(titreForm);
-  console.log(categoryForm);
-  console.log(photoInput);
 
   fetch('http://localhost:5678/api/works', {
     method: 'POST',
