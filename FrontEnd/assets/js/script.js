@@ -53,7 +53,10 @@ function createWork(work, container) {
 
   figure.appendChild(img);
   figure.appendChild(figcaption);
+  gallery.appendChild(figure);
+if (container) {
   container.appendChild(figure);
+}
 
 }
 
@@ -98,7 +101,7 @@ async function getCategories() {
  *
  * @param {number} id - The ID used to filter the elements.
  */
-function filterElements(id) {
+function filterElements(id,) {
   gallery.innerHTML = '';
 
   if (id === 0) createAllWorks();
