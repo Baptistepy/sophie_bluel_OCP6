@@ -247,12 +247,12 @@ li:focus {
 }
 
 .btn-active {
-  background: #1D6154;
+  background: #1D6154 ;
   color: #FFFEF8;
 }
 
 .btn-disabled {
-  background: gray;
+  background: gray !important;
 }
 
 [id="introduction"] p {
@@ -404,7 +404,7 @@ input {
 .modal {
   position: fixed !important;
   z-index: 9999;
-  top: 100px;
+  top: 0;
   left: calc(50vw - 315px);
   border-radius: 10px;
   width: 630px;
@@ -473,6 +473,7 @@ input {
 .modal .btn-active {
   margin-top: 30px;
   width: 237px;
+  background-color: #1D6154;
 } 
 
 .delete-btn {
@@ -481,6 +482,10 @@ input {
   right: 2px;
   z-index: 1000;
   color: white;
+}
+
+.gallery .delete-btn {
+  display: none;
 }
 
 .form-modal {

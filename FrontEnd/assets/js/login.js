@@ -35,7 +35,6 @@ const LOGIN_URL = 'http://localhost:5678/api/users/login';
 
         localStorage.setItem('token', token);
         localStorage.setItem('userId', userId);
-
         window.location.href = 'index.html';
       } else {
         alert("Erreur dans l'identifiant ou le mot de passe.");

@@ -31,7 +31,32 @@ let categories = [];
  * @param {string} work.imageAlt - The alternate text for the image.
  * @param {string} work.caption - The caption for the image.
  */
-function createWork(work, container) {
+function createModalWork(work, container) {
+
+  const figure            = document.createElement('figure');
+  const img               = document.createElement('img');
+  const figcaption        = document.createElement('figcaption');
+  const deleteBtn         = document.createElement("i");
+  
+  deleteBtn.classList.add("delete-btn", "fa-solid", "fa-trash-can", "fa-xs");
+  deleteBtn.id = "trash-" + work.id;
+
+
+
+  img.src = work.imageUrl;
+  img.alt = work.imageAlt;
+  figcaption.textContent = work.caption;
+
+  figure.appendChild(deleteBtn);
+  figure.appendChild(img);
+  figure.appendChild(figcaption);
+  gallery.appendChild(figure);
+  container.appendChild(figure);
+
+  deleteBtn.addEventListener('click', () => deleteModal(work.id));
+}
+
+function createWork(work) {
   const figure      = document.createElement('figure');
   const img         = document.createElement('img');
   const figcaption  = document.createElement('figcaption');
@@ -39,21 +64,9 @@ function createWork(work, container) {
   img.src = work.imageUrl;
   img.alt = work.imageAlt;
   figcaption.textContent = work.caption;
-
-  if (container !== gallery) {
-    const deleteBtn = document.createElement("i");
-
-    deleteBtn.classList.add("delete-btn", "fa-solid", "fa-trash-can", "fa-xs");
-
-    deleteBtn.id = "trash-" + work.id;
-
-    figure.appendChild(deleteBtn);
-    deleteBtn.addEventListener('click', () => deleteModal(work.id));
-  }
-
   figure.appendChild(img);
   figure.appendChild(figcaption);
-  container.appendChild(figure);
+  gallery.appendChild(figure);
 
 }
 
@@ -61,7 +74,14 @@ function createWork(work, container) {
  * Creates all works.
  */
 function createAllWorks(container) {
-  works.forEach(work => { createWork(work, container) });
+  console.log(works);
+  if (container) {
+    container.innerHTML = '';
+    works.forEach(work => { createModalWork(work, container) });
+  } else {
+    gallery.innerHTML = '';
+    works.forEach(work => { createWork(work) });
+  }
 }
 
 /**
@@ -98,7 +118,7 @@ async function getCategories() {
  *
  * @param {number} id - The ID used to filter the elements.
  */
-function filterElements(id) {
+function filterElements(id,) {
   gallery.innerHTML = '';
 
   if (id === 0) createAllWorks();
@@ -117,8 +137,8 @@ function addFilteredListeners() {
   btns.forEach(btn => {
     btn.addEventListener('click', () => {
       filterElements(parseInt(btn.id));
-      btns.forEach(btn => btn.classList.remove('btn_active'));
-      btn.classList.add('btn_active');
+      btns.forEach(btn => btn.classList.remove('btn-active'));
+      btn.classList.add('btn-active');
     });
   }
   );
@@ -354,6 +374,7 @@ function inputListener() {
     addBtn.classList.remove('btn-disabled');
   } else {
     addBtn.disabled = true;
+    addBtn.classList.add('btn-disabled');
   }
 }
 
@@ -401,29 +422,38 @@ function handleFileSelect(evt) {
  * @param {HTMLSelectElement} categoryForm - select element for the project category
  * @param {HTMLInputElement} photoInput - input element for the project image
  */
-function addProject(titreForm, categoryForm, photoInput,) {
+async function addProject(titreForm, categoryForm, photoInput,) {
+
+try {
   const formData = new FormData();
   formData.append('title', titreForm.value);
   formData.append('category', categoryForm.value);
   formData.append('image', photoInput.files[0]);
 
-  fetch('http://localhost:5678/api/works', {
+  const response = await fetch('http://localhost:5678/api/works', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
     },
     body: formData
-  })
-    .then(response => {
-      if (response.ok) {
-        createAllWorks(gallery);
-      } else {
-        alert('Les données ne sont pas valides');
-      }
+  });
+  if (response.ok) {
+    getWorks()
+    .then(() => {
+      closeModal();
+      removeModalBlur();
+      createAllWorks(gallery);
     })
     .catch(error => {
-      console.log('Une erreur s\'est produite lors de l\'ajout de la ressource :', error);
-    });
+      console.error(error);
+    })    
+  } else {
+    alert('L\'identifiant ne correspond à aucune ressource');
+  }
+}
+  catch (error) {
+  console.error(error);
+}
 }
 
 // ******************************* CLOSE/DELETE MODAL *******************************
@@ -447,23 +477,32 @@ function closeModal() {
  */
 async function deleteModal(id) {
   console.log(localStorage.getItem('token'));
-  await fetch(`http://localhost:5678/api/works/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    }
-    })
-    .then(response => {
-      if (response.ok) {
-        createAllWorks(gallery);
-      } else {
-        alert('L\'identifiant ne correspond à aucune ressource');
+  
+  try {
+    const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
-    })
-    .catch(error => {
-      console.log('Une erreur s\'est produite lors de la suppression de la ressource :', error);
     });
+    console.log(response);
+    if (response.ok) {
+      getWorks()
+      .then(() => {
+        closeModal();
+        removeModalBlur();
+        createAllWorks(gallery);
+      })
+      .catch(error => {
+        console.error(error);
+      })    
+    } else {
+      alert('L\'identifiant ne correspond à aucune ressource');
+    }
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 /**
