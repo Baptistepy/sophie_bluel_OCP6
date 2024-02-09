@@ -31,11 +31,13 @@ let categories = [];
  * @param {string} work.imageAlt - The alternate text for the image.
  * @param {string} work.caption - The caption for the image.
  */
-function createModalWork(work, container) {
+function createModalWork(work, container, displayModal) {
   const figure      = document.createElement('figure');
   const img         = document.createElement('img');
   const figcaption  = document.createElement('figcaption');
-  const deleteBtn = document.createElement("i");
+  const deleteBtn   = document.createElement("i");
+  const modalTrashIcons = document.querySelectorAll('.modal i.fa-trash-can');
+  const galleryTrashIcons = document.querySelectorAll('.gallery i.fa-trash-can')
 
   img.src = work.imageUrl;
   img.alt = work.imageAlt;
@@ -52,6 +54,12 @@ function createModalWork(work, container) {
 
   deleteBtn.addEventListener('click', () => deleteModal(work.id));
 
+modalTrashIcons.forEach((icon) => {
+  icon.style.display = "block";
+});
+galleryTrashIcons.forEach((icon) => {
+  icon.style.display = "none";
+});
 }
 
 function createWork(work) {
