@@ -419,29 +419,38 @@ function handleFileSelect(evt) {
  * @param {HTMLSelectElement} categoryForm - select element for the project category
  * @param {HTMLInputElement} photoInput - input element for the project image
  */
-function addProject(titreForm, categoryForm, photoInput,) {
+async function addProject(titreForm, categoryForm, photoInput,) {
+
+try {
   const formData = new FormData();
   formData.append('title', titreForm.value);
   formData.append('category', categoryForm.value);
   formData.append('image', photoInput.files[0]);
 
-  fetch('http://localhost:5678/api/works', {
+  const response = await fetch('http://localhost:5678/api/works', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
     },
     body: formData
-  })
-    .then(response => {
-      if (response.ok) {
-        createAllWorks(gallery);
-      } else {
-        alert('Les données ne sont pas valides');
-      }
+  });
+  if (response.ok) {
+    getWorks()
+    .then(() => {
+      closeModal();
+      removeModalBlur();
+      createAllWorks(gallery);
     })
     .catch(error => {
-      console.log('Une erreur s\'est produite lors de l\'ajout de la ressource :', error);
-    });
+      console.error(error);
+    })    
+  } else {
+    alert('L\'identifiant ne correspond à aucune ressource');
+  }
+}
+  catch (error) {
+  console.error(error);
+}
 }
 
 // ******************************* CLOSE/DELETE MODAL *******************************
