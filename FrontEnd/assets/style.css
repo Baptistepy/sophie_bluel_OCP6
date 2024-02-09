@@ -252,7 +252,7 @@ li:focus {
 }
 
 .btn-disabled {
-  background: gray;
+  background: gray !important;
 }
 
 [id="introduction"] p {
@@ -473,6 +473,7 @@ input {
 .modal .btn-active {
   margin-top: 30px;
   width: 237px;
+  background-color: #1D6154;
 } 
 
 .delete-btn {

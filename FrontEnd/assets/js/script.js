@@ -372,6 +372,7 @@ function inputListener() {
     addBtn.classList.remove('btn-disabled');
   } else {
     addBtn.disabled = true;
+    addBtn.classList.add('btn-disabled');
   }
 }
 
