@@ -39,7 +39,6 @@ function createWork(work, container) {
   img.src = work.imageUrl;
   img.alt = work.imageAlt;
   figcaption.textContent = work.caption;
-
   if (container !== gallery) {
     const deleteBtn = document.createElement("i");
 
@@ -49,8 +48,7 @@ function createWork(work, container) {
 
     figure.appendChild(deleteBtn);
     deleteBtn.addEventListener('click', () => deleteModal(work.id));
-  }
-
+  } 
   figure.appendChild(img);
   figure.appendChild(figcaption);
   gallery.appendChild(figure);
