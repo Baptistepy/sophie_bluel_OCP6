@@ -404,7 +404,7 @@ input {
 .modal {
   position: fixed !important;
   z-index: 9999;
-  top: 100px;
+  top: 0;
   left: calc(50vw - 315px);
   border-radius: 10px;
   width: 630px;
