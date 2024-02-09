@@ -31,7 +31,7 @@ let categories = [];
  * @param {string} work.imageAlt - The alternate text for the image.
  * @param {string} work.caption - The caption for the image.
  */
-function createWork(work, container) {
+function createModalWork(work, container) {
   const figure      = document.createElement('figure');
   const img         = document.createElement('img');
   const figcaption  = document.createElement('figcaption');
@@ -39,7 +39,6 @@ function createWork(work, container) {
   img.src = work.imageUrl;
   img.alt = work.imageAlt;
   figcaption.textContent = work.caption;
-  if (container !== gallery) {
     const deleteBtn = document.createElement("i");
 
     deleteBtn.classList.add("delete-btn", "fa-solid", "fa-trash-can", "fa-xs");
@@ -48,13 +47,24 @@ function createWork(work, container) {
 
     figure.appendChild(deleteBtn);
     deleteBtn.addEventListener('click', () => deleteModal(work.id));
-  } 
   figure.appendChild(img);
   figure.appendChild(figcaption);
   gallery.appendChild(figure);
-if (container) {
   container.appendChild(figure);
+
 }
+
+function createWork(work) {
+  const figure      = document.createElement('figure');
+  const img         = document.createElement('img');
+  const figcaption  = document.createElement('figcaption');
+
+  img.src = work.imageUrl;
+  img.alt = work.imageAlt;
+  figcaption.textContent = work.caption;
+  figure.appendChild(img);
+  figure.appendChild(figcaption);
+  gallery.appendChild(figure);
 
 }
 
@@ -62,7 +72,14 @@ if (container) {
  * Creates all works.
  */
 function createAllWorks(container) {
-  works.forEach(work => { createWork(work, container) });
+  console.log(works);
+  if (container) {
+    container.innerHTML = '';
+    works.forEach(work => { createModalWork(work, container) });
+  } else {
+    gallery.innerHTML = '';
+    works.forEach(work => { createWork(work) });
+  }
 }
 
 /**
@@ -448,23 +465,32 @@ function closeModal() {
  */
 async function deleteModal(id) {
   console.log(localStorage.getItem('token'));
-  await fetch(`http://localhost:5678/api/works/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    }
-    })
-    .then(response => {
-      if (response.ok) {
-        createAllWorks(gallery);
-      } else {
-        alert('L\'identifiant ne correspond à aucune ressource');
+  
+  try {
+    const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
-    })
-    .catch(error => {
-      console.log('Une erreur s\'est produite lors de la suppression de la ressource :', error);
     });
+    console.log(response);
+    if (response.ok) {
+      getWorks()
+      .then(() => {
+        closeModal();
+        removeModalBlur();
+        createAllWorks(gallery);
+      })
+      .catch(error => {
+        console.error(error);
+      })    
+    } else {
+      alert('L\'identifiant ne correspond à aucune ressource');
+    }
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 /**
