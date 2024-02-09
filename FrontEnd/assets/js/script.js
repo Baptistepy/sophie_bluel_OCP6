@@ -32,13 +32,17 @@ let categories = [];
  * @param {string} work.caption - The caption for the image.
  */
 function createModalWork(work, container) {
-  const trashGallery = document.querySelectorAll('.gallery i.fa-trash-can')
+
   const figure            = document.createElement('figure');
   const img               = document.createElement('img');
   const figcaption        = document.createElement('figcaption');
   const deleteBtn         = document.createElement("i");
-
-  trashGallery.forEach((trash) => trash.remove());
+  const trashGallery      = document.querySelectorAll('.gallery .delete-btn');
+  
+trashGallery.forEach(trash => {
+  console.log(trash);
+  trash.remove();
+})
 
   img.src = work.imageUrl;
   img.alt = work.imageAlt;
