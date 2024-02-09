@@ -135,8 +135,8 @@ function addFilteredListeners() {
   btns.forEach(btn => {
     btn.addEventListener('click', () => {
       filterElements(parseInt(btn.id));
-      btns.forEach(btn => btn.classList.remove('btn_active'));
-      btn.classList.add('btn_active');
+      btns.forEach(btn => btn.classList.remove('btn-active'));
+      btn.classList.add('btn-active');
     });
   }
   );
