@@ -484,7 +484,9 @@ input {
   color: white;
 }
 
-
+.gallery .delete-btn {
+  display: none;
+}
 
 .form-modal {
   display: flex;

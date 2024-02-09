@@ -37,19 +37,15 @@ function createModalWork(work, container) {
   const img               = document.createElement('img');
   const figcaption        = document.createElement('figcaption');
   const deleteBtn         = document.createElement("i");
-  const trashGallery      = document.querySelectorAll('.gallery .delete-btn');
   
-trashGallery.forEach(trash => {
-  console.log(trash);
-  trash.remove();
-})
+  deleteBtn.classList.add("delete-btn", "fa-solid", "fa-trash-can", "fa-xs");
+  deleteBtn.id = "trash-" + work.id;
+
+
 
   img.src = work.imageUrl;
   img.alt = work.imageAlt;
   figcaption.textContent = work.caption;
-
-  deleteBtn.classList.add("delete-btn", "fa-solid", "fa-trash-can", "fa-xs");
-  deleteBtn.id = "trash-" + work.id;
 
   figure.appendChild(deleteBtn);
   figure.appendChild(img);
@@ -58,7 +54,6 @@ trashGallery.forEach(trash => {
   container.appendChild(figure);
 
   deleteBtn.addEventListener('click', () => deleteModal(work.id));
-
 }
 
 function createWork(work) {
